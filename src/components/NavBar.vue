@@ -51,11 +51,16 @@
         >
       </div>
       <div class="nav navbar-nav ml-auto">
-        <router-link v-if="isAnonymous" class="nav-item nav-link" to="/login"
+        <router-link
+          id="login"
+          v-if="isAnonymous"
+          class="nav-item nav-link"
+          to="/login"
           >Log in</router-link
         >
         <!-- <span class="nav-item navbar-text">{{username}}</span> -->
         <a
+          id="logout"
           v-if="!isAnonymous"
           class="nav-item nav-link"
           href="#"

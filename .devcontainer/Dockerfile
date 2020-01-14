@@ -32,8 +32,10 @@ RUN apt-get update \
     && echo "deb https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
     && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
+    && curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update \
-    && apt-get -y install --no-install-recommends yarn google-cloud-sdk \
+    && apt-get -y install --no-install-recommends yarn google-cloud-sdk google-chrome-stable default-jdk firefox-esr \
     #
     # Install tslint and typescript globally
     && npm install -g tslint typescript \
@@ -54,6 +56,18 @@ RUN apt-get update \
 RUN npm install --global @vue/cli
 
 RUN npm install --global firebase-tools
+
+RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip \
+    && unzip chromedriver_linux64 -d /usr/bin \
+    && chmod +x /usr/bin/chromedriver
+
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz \
+    && tar -xzf geckodriver* \
+    && mv geckodriver /usr/bin \
+    && chmod +x /usr/bin/geckodriver
+
+RUN firebase setup:emulators:firestore
+
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=

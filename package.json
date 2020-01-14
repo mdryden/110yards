@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test": "jest --detectOpenHandles",
     "deploy-test": "firebase deploy --only hosting",
     "predeploy-test": "yarn build --mode test"
   },
@@ -30,6 +31,10 @@
     "@vue/cli-plugin-router": "^4.0.0",
     "@vue/cli-plugin-vuex": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "jest": "^24.9.0",
+    "jest-environment-webdriver": "^0.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.5",
     "vue-template-compiler": "^2.6.10"
   }
 }

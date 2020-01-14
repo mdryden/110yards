@@ -1,5 +1,6 @@
 .btn-primary,
 .btn-primary:hover {
+  color: var(--text-color);
   background-color: var(--color-primary);
   background-image: unset;
   border-color: var(--color-secondary);

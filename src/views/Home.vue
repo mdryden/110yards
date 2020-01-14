@@ -3,7 +3,7 @@
     <div class="col-md-8 offset-1">
       <section id="leagueOverview">
         <h1 class="brand">110 yards</h1>
-        <h5 class="brand">{{ randomSlogan }}</h5>
+        <h5 id="slogan" class="brand">{{ randomSlogan }}</h5>
         <div v-if="leagues.length > 0">
           <hr />
           <h5>My Teams - Week {{ weekNumber }}</h5>

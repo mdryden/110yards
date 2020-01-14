@@ -2,8 +2,9 @@
 node_modules
 /dist
 
-
 *.local
+
+# test output
 
 # Log files
 npm-debug.log*

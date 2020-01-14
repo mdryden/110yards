@@ -7,6 +7,7 @@
           <form ref="form" @submit.prevent="login">
             <div class="form-group">
               <input
+                id="email"
                 type="text"
                 class="form-control"
                 v-model="email"
@@ -17,6 +18,7 @@
             </div>
             <div class="form-group">
               <input
+                id="password"
                 type="password"
                 class="form-control"
                 v-model="password"
@@ -26,7 +28,13 @@
               />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block">Log in</button>
+              <button
+                id="submit"
+                type="submit"
+                class="btn btn-primary btn-block"
+              >
+                Log in
+              </button>
             </div>
           </form>
         </section>

@@ -1,13 +1,16 @@
 ﻿:root {
+  --text-color: #cccccc;
+
   --color-primary: #581010;
   --color-secondary: #bf8753;
 }
 
 body,
 .table {
-  color: #cccccc;
-  background-color: black;
-  font-family: "Segoe UI";
+  color: var(--text-color);
+  background-color: #121212;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
 }
 
 #body {
@@ -24,7 +27,7 @@ body,
 }
 
 .brand {
-  font-family: Segoe UI black;
+  font-weight: 500;
 }
 
 a,
@@ -49,7 +52,7 @@ a .glyphicon-minus {
 }
 
 h5 {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .cfl-news h5 {
