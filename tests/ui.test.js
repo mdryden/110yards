@@ -44,4 +44,18 @@ describe("UI Tests", () => {
       await takeScreenshot(browserName, browser, "logged-in")
     },
   )
+
+  test.each(Browsers)("can log out", async (browserName, browser) => {
+    await logIn(browser)
+
+    let logOut = await getElementById(browser, "logout")
+
+    await logOut.click()
+
+    let result = (await getElementById(browser, "login")) != null
+
+    expect(result).toBe(true)
+
+    await takeScreenshot(browserName, browser, "logged-out")
+  })
 })

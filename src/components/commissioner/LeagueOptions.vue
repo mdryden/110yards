@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <form ref="form" @submit.prevent="submit()">
         <div class="form-group">
-          <!-- <label>League Name</label> -->
+          <label>League Name</label>
           <input
             type="text"
             v-model="form.name"

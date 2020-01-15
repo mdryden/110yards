@@ -1,4 +1,6 @@
 import Home from "../../views/Home.vue"
+import DefaultError from "../../views/error/Default.vue"
+import NotAuthorized from "../../views/error/NotAuthorized.vue"
 
 import Login from "../../components/auth/Login.vue"
 import Register from "../../components/auth/Register.vue"
@@ -17,22 +19,34 @@ export const routes = [
     path: "/",
     name: "home",
     component: Home,
-    meta: { anonymous: true }
+    meta: { anonymous: true },
+  },
+  {
+    path: "/ohno",
+    name: "error",
+    component: DefaultError,
+    meta: { anonymous: true },
+  },
+  {
+    path: "/access-denied",
+    name: "access-denied",
+    component: NotAuthorized,
+    meta: { anonymous: true },
   },
   {
     path: "/login",
     name: "login",
-    props: (route) => ({
+    props: route => ({
       returnUrl: route.query.returnUrl,
     }),
     component: Login,
-    meta: { anonymous: true }
+    meta: { anonymous: true },
   },
   {
     path: "/signup",
     name: "signup",
     component: Register,
-    meta: { anonymous: true }
+    meta: { anonymous: true },
   },
   {
     path: "/league/create",

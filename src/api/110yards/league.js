@@ -22,3 +22,15 @@ export const closeRegistration = async (user, leagueId) => {
 export const openRegistration = async (user, leagueId) => {
   return client.post(user, `/league/open-registration/${leagueId}`)
 }
+
+export const updateRosterPositions = async (
+  user,
+  leagueId,
+  rosterPositions,
+) => {
+  return client.put(
+    user,
+    `/league/roster-positions/${leagueId}`,
+    rosterPositions,
+  )
+}

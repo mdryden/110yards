@@ -18,7 +18,7 @@ instance.interceptors.response.use(
   },
   error => {
     eventBus.$emit("loading-stop")
-    //   eventBus.$emit("exception", error)
+    eventBus.$emit("exception", error)
   },
 )
 

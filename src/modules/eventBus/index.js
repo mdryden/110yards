@@ -12,10 +12,12 @@ export default eventBus
 function handleException(exception) {
   console.error(exception.message)
   switch (exception.message) {
-    case "Missing or insufficient permission.": // firestore rule blocked access to resource
-      router.push("/access-denied") // todo: implement this view
+    case "Missing or insufficient permissions.": // firestore rule blocked access to resource
+      router.push({ name: "access-denied" }) // todo: implement this view
+      break
 
     default:
-      router.push("/ohno") // todo: implement this view
+      router.push({ name: "error", params: { message: exception.message } })
+      break
   }
 }
