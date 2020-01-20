@@ -9,7 +9,9 @@
             class="btn btn-default"
             v-if="manager.uid != uid"
             v-on:click="confirmRemoval(manager)"
-          >Remove</button>
+          >
+            Remove
+          </button>
         </td>
       </tr>
     </table>
@@ -19,6 +21,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { firestore } from "../../modules/firebase"
+import * as leagueService from "../../api/110yards/league"
 
 export default Vue.extend({
   name: "manage-teams",
@@ -32,12 +35,17 @@ export default Vue.extend({
     uid() {
       return this.$store.state.uid
     },
+    currentUser() {
+      return this.$store.state.currentUser
+    },
   },
   methods: {
-    removeManager(manager) {},
-    confirmRemoval(manager) {
+    removeManager(manager) {
+      leagueService.removeManager(this.currentUser, this.leagueId, manager.uid)
+    },
+    async confirmRemoval(manager) {
       let remove = confirm("Remove " + manager.name + "from this league?")
-      if (remove) this.removeManager(manager)
+      if (remove) await this.removeManager(manager)
     },
   },
   watch: {

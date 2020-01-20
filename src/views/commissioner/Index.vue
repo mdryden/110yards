@@ -4,13 +4,15 @@
 
     <div class="row">
       <div class="col-md-12">
-        <a href="#" @click.prevent="registration()" :league="league"
-          >Registration</a
+        <a href="#" @click.prevent="setView('registration')">Registration</a
         >&nbsp;|
-        <a href="#" @click.prevent="manageTeams()">Manage Teams</a>&nbsp;|
-        <a href="#" @click.prevent="leagueOptions()">League options</a>&nbsp;|
-        <a href="#" @click.prevent="rosters()">Roster options</a>&nbsp;|
-        <a href="#">Schedule settings</a>
+        <a href="#" @click.prevent="setView('manage-teams')">Manage Teams</a
+        >&nbsp;|
+        <a href="#" @click.prevent="setView('league-options')">League options</a
+        >&nbsp;|
+        <a href="#" @click.prevent="setView('rosters')">Roster options</a
+        >&nbsp;|
+        <a href="#" @click.prevent="setView('schedule')">Schedule settings</a>
         <!-- <partial name="BeginDraftButton" model="@Model.League" /> -->
       </div>
     </div>
@@ -20,6 +22,7 @@
     <manage-teams v-if="view == 'manage-teams'" :leagueId="leagueId" />
     <league-options v-if="view == 'league-options'" :league="league" />
     <rosters v-if="view == 'rosters'" :leagueId="leagueId" />
+    <schedule v-if="view == 'schedule'" :leagueId="leagueId" />
     <hr />
 
     <div class="row" v-if="!league.isLocked"></div>
@@ -34,6 +37,7 @@ import LeagueOptions from "../../components/commissioner/LeagueOptions"
 import ManageTeams from "../../components/commissioner/ManageTeams"
 import Registration from "../../components/commissioner/Registration"
 import Rosters from "../../components/commissioner/Rosters"
+import Schedule from "../../components/commissioner/Schedule"
 
 export default {
   name: "commissioner-index",
@@ -42,6 +46,7 @@ export default {
     ManageTeams,
     Registration,
     Rosters,
+    Schedule,
   },
   props: ["leagueId"],
   data() {
@@ -55,6 +60,9 @@ export default {
   },
 
   methods: {
+    setView(view) {
+      this.view = view
+    },
     leagueOptions() {
       this.view = "league-options"
     },

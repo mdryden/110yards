@@ -11,6 +11,7 @@ instance.interceptors.request.use(config => {
   eventBus.$emit("loading-start")
   return config
 })
+
 instance.interceptors.response.use(
   response => {
     eventBus.$emit("loading-stop")
@@ -18,7 +19,14 @@ instance.interceptors.response.use(
   },
   error => {
     eventBus.$emit("loading-stop")
-    eventBus.$emit("exception", error)
+    if (error.response.status == 500) {
+      eventBus.$emit("exception", error)
+    }
+
+    let exception = new Error(error.response.data.message)
+    exception.response = error.response
+
+    throw exception
   },
 )
 
@@ -53,4 +61,9 @@ export async function put(user, path, data) {
   let response = await instance(options)
 
   return response ? response.data : null
+}
+
+export async function del(user, path) {
+  let options = await getRequestOptions(user, "delete", path)
+  return instance(options)
 }

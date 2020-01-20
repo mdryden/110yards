@@ -34,3 +34,7 @@ export const updateRosterPositions = async (
     rosterPositions,
   )
 }
+
+export const removeManager = async (user, leagueId, managerId) => {
+  return client.del(user, `/league/${leagueId}/manager/${managerId}`)
+}

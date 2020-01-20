@@ -2,14 +2,13 @@
   <section class="row">
     <div class="col-12">
       <h5>Join league</h5>
-      <join-private-form :leagueId="joinId" />
+      <join-private-form :joinId="joinId" :password="password" />
     </div>
   </section>
 </template>
 
 <script>
 import JoinPrivateForm from "../../components/league/JoinPrivateForm.vue"
-import eventBus from "../../modules/eventBus"
 import * as leagueService from "../../api/110yards/league"
 
 export default {
@@ -18,19 +17,16 @@ export default {
     joinId: String,
     password: String,
   },
-  data() {
-    return {
-      joining: false,
-      failed: false,
-    }
+  components: {
+    JoinPrivateForm,
   },
   computed: {
     currentUser() {
       return this.$store.state.currentUser
     },
-  },
-  components: {
-    JoinPrivateForm,
+    password() {
+      return this.$route.query.password
+    },
   },
   methods: {
     async trySignup() {
@@ -54,13 +50,13 @@ export default {
     joinId: {
       immediate: true,
       async handler(joinId) {
-        await this.trySignup()
+        this.leagueId = joinId
       },
     },
     currentUser: {
       immediate: true,
       async handler(currentUser) {
-        await this.trySignup()
+        //await this.trySignup()
       },
     },
   },
