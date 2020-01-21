@@ -1,4 +1,7 @@
 steps:
+  - name: "gcr.io/tired-lemur/slackbot"
+    args: ["--build", "$BUILD_ID", "--webhook", $_SLACK_WEBHOOK]
+
   - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
     id: "version"
     entrypoint: /bin/sh
