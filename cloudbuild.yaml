@@ -11,7 +11,7 @@ steps:
     entrypoint: /bin/sh
     args:
       - "-c"
-      - yarn build --mode $_CONFIG && firebase deploy --only hosting
+      - yarn install && yarn build --mode $_CONFIG && firebase deploy --only hosting --token $_FIREBASE_TOKEN
 
 substitutions:
   _CONFIG: test
