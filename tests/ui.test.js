@@ -2,10 +2,12 @@ const { Builder, By, Key, logging } = require("selenium-webdriver")
 const fs = require("fs")
 const { Browsers, getElementById, takeScreenshot } = require("./browsers")
 
-const baseUrl = "http://localhost:8080"
+const getBaseUrl = () => {
+  return process.env.BASE_URL || "http://localhost:8080"
+}
 
 const logIn = async browser => {
-  await browser.get(baseUrl + "/login")
+  await browser.get(getBaseUrl() + "/login")
 
   let email = await getElementById(browser, "email")
   email.clear()
@@ -27,7 +29,7 @@ describe("UI Tests", () => {
   })
 
   test.each(Browsers)("index renders on %s", async (browserName, browser) => {
-    await browser.get(baseUrl)
+    await browser.get(getBaseUrl())
     const value = (await browser.findElement(By.id("slogan")).getText()) != null
     expect(value).toBe(true)
     await takeScreenshot(browserName, browser, "index")

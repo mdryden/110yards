@@ -13,5 +13,12 @@ steps:
       - "-c"
       - yarn install && yarn build --mode $_CONFIG && firebase deploy --only hosting --token $_FIREBASE_TOKEN --project $PROJECT_ID
 
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "test"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - BASE_URL=$_BASE_URL && yarn test
+
 substitutions:
   _CONFIG: test
