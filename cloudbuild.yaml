@@ -9,6 +9,8 @@ steps:
       - "-c"
       - echo VUE_APP_VERSION=$SHORT_SHA >> file && echo VUE_APP_LAST_UPDATED=$(date --iso-8601=minutes) >> file
 
+  # TODO: run non-UI tests here
+
   - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
     id: "deploy"
     entrypoint: /bin/sh
@@ -22,6 +24,10 @@ steps:
     args:
       - "-c"
       - export BASE_URL=$_BASE_URL && yarn test
+
+  # TODO: deploy to live here
+
+  # TODO: re-run UI tests here
 
 substitutions:
   _CONFIG: test

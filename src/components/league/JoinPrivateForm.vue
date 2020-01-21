@@ -63,10 +63,10 @@ export default {
         } catch (exception) {
           console.error(`error: ${exception.message}`)
 
-          if (response.status == 403) {
+          if (exception.response.status == 403) {
             alert("League password was incorrect.")
           } else {
-            alert(`Unable to join league: ${response.message}`)
+            alert(`Unable to join league: ${exception.response.message}`)
           }
         }
       }

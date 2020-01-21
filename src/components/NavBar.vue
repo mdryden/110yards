@@ -102,8 +102,6 @@ export default {
     return {
       visible: false,
       rosterId: null,
-      //isCommissioner: false,
-      isAdmin: false,
     }
   },
   computed: {
@@ -116,9 +114,9 @@ export default {
     leagueId() {
       return this.$store.state.currentLeagueId
     },
-    // league() {
-    //   return this.$store.state.currentLeague;
-    // },
+    isAdmin() {
+      return this.$store.state.isAdmin
+    },
   },
   methods: {
     async logOut() {

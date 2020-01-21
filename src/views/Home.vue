@@ -79,6 +79,7 @@ export default {
         .collection("user_leagues")
         .doc(uid)
         .collection("leagues")
+        .orderBy("joined")
 
       this.$bind("leagues", ref)
     },

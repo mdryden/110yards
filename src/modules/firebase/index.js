@@ -30,11 +30,8 @@ firebase.auth().onAuthStateChanged(user => {
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      unsubscribe();
-      resolve(user);
-    }, reject);
+      unsubscribe()
+      resolve(user)
+    }, reject)
   })
-};
-
-// Vue.prototype.$firebase = firebase;
-// Vue.prototype.$firestore = firebase.firestore()
+}

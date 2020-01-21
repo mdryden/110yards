@@ -1,5 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import { firestore } from "../firebase"
 
 Vue.use(Vuex)
 
@@ -10,26 +11,39 @@ export default new Vuex.Store({
     uid: null,
     currentLeagueId: null,
     currentLeague: null,
+    currentRoles: [],
+    isAdmin: false,
   },
   mutations: {
     logIn(state, data) {
-      state.currentUser = data
+      state.currentUser = data.user
       state.isAnonymous = false
-      state.uid = data.uid
+      state.uid = data.user.uid
+      state.currentRoles = data.roles || []
+      state.isAdmin = state.currentRoles.includes("ADMIN")
     },
     logOut(state) {
       state.currentUser = null
       state.isAnonymous = true
       state.uid = null
+      state.isAdmin = false
+      state.currentRoles = []
     },
     setCurrentLeagueId(state, leagueId) {
       state.currentLeagueId = leagueId
     },
   },
   actions: {
-    updateUser({ commit }, user) {
+    async updateUser({ commit }, user) {
       if (user) {
-        commit("logIn", user)
+        let roles = (await firestore.doc(`user_roles/${user.uid}`).get()).data()
+
+        // undefined for most users
+        if (roles) {
+          roles = roles.roles
+        }
+
+        commit("logIn", { user: user, roles: roles })
       } else {
         commit("logOut")
       }
