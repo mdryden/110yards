@@ -22,7 +22,7 @@
     <manage-teams v-if="view == 'manage-teams'" :leagueId="leagueId" />
     <league-options v-if="view == 'league-options'" :league="league" />
     <rosters v-if="view == 'rosters'" :leagueId="leagueId" />
-    <schedule v-if="view == 'schedule'" :leagueId="leagueId" />
+    <schedule v-if="view == 'schedule'" :league="league" />
     <hr />
 
     <div class="row" v-if="!league.isLocked"></div>

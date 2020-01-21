@@ -21,6 +21,7 @@ instance.interceptors.response.use(
     eventBus.$emit("loading-stop")
     if (error.response.status == 500) {
       eventBus.$emit("exception", error)
+      return
     }
 
     let exception = new Error(error.response.data.message)

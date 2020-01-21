@@ -4,8 +4,8 @@ export const create = async (user, league) => {
   return client.post(user, "/league", league)
 }
 
-export const update = async (user, league) => {
-  return client.put(user, "/league", league)
+export const update = async (user, leagueId, options) => {
+  return client.put(user, `/league/${leagueId}`, options)
 }
 
 export const join = async (user, leagueId, password) => {
