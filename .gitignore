@@ -3,6 +3,7 @@ node_modules
 /dist
 
 *.local
+.firebase
 
 # test output
 
