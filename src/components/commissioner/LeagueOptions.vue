@@ -75,13 +75,12 @@ export default {
     },
     async save() {
       let user = this.$store.state.currentUser
-      let updatedLeague = {
-        id: this.league.id,
+      let options = {
         name: this.form.name,
         private: this.form.isPrivate,
         password: this.form.password,
       }
-      await leagueService.update(user, updatedLeague)
+      await leagueService.update(user, this.league.id, options)
       this.saved = true
     },
   },

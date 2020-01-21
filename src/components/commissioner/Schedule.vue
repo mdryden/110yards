@@ -60,12 +60,10 @@
               teams in the league.</span
             >
           </div>
-          }
           <button type="submit" class="btn btn-default">
             Lock registration and generate schedule
           </button>
-          <partial name="BeginDraftButton" model="CurrentLeague" />
-          }
+          <!-- <partial name="BeginDraftButton" model="CurrentLeague" /> -->
         </div>
       </form>
     </div>
@@ -91,25 +89,29 @@
 
 <script>
 import _ from "lodash"
+import { firestore } from "../../modules/firebase"
 
 export default {
   name: "schedule",
   props: {
-    leagueId: String,
+    league: {},
   },
   data() {
     return {
       schedule: {},
+      managers: [],
       playoffTypes: [],
-      managerCount: 8,
       playoffType: 0,
       firstPlayoffWeek: 0,
       enableLoserPlayoff: false,
     }
   },
   computed: {
+    managerCount() {
+      return this.managers.length
+    },
     enoughTeams() {
-      return false
+      return this.managers.length % 2 == 0
     },
     eligiblePlayoffTypes() {
       return this.playoffTypes.filter(x => x.id <= this.managerCount)
@@ -131,6 +133,43 @@ export default {
         this.playoffType - this.managerCount >= 2
       )
     },
+
+    bindSchedule(leagueId) {
+      this.$bind(
+        "schedule",
+        firestore
+          .collection("league")
+          .doc(leagueId)
+          .collection("config")
+          .doc("schedule"),
+      )
+    },
+    bindManagers(leagueId) {
+      this.$bind(
+        "managers",
+        firestore.collection(`league/${leagueId}/managers`),
+      )
+    },
+    bindPlayoffTypes() {
+      this.$bind("playoffTypes", firestore.collection(`playoff-types`))
+    },
+  },
+  watch: {
+    league: {
+      immediate: true,
+      handler(league) {
+        if (league == null) return
+
+        this.bindSchedule(league.id)
+        this.bindManagers(league.id)
+
+        this.playoffType = league.playoffType || 0
+      },
+    },
+  },
+
+  mounted: function() {
+    this.bindPlayoffTypes()
   },
 }
 </script>
