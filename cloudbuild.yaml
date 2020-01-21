@@ -1,0 +1,17 @@
+steps:
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "version"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - echo VUE_APP_VERSION=$SHORT_SHA >> file && echo VUE_APP_LAST_UPDATED=$(date --iso-8601=minutes) >> file
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "deploy"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - yarn build --mode $_CONFIG && firebase deploy --only hosting
+
+substitutions:
+  _CONFIG: test
