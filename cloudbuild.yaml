@@ -20,10 +20,12 @@ steps:
       ]
 
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["builds", "submit", "--config=cloudbuild.deploy.yaml"]
-
+    args:
+      [
+        "builds",
+        "submit",
+        "--config=cloudbuild.deploy.yaml",
+        "--substitutions=_FIREBASE_TOKEN=$_FIREBASE_TOKEN,_BASE_URL=$_BASE_URL",
+      ]
   # TODO: deploy to live here
   # TODO: re-run UI tests here
-
-substitutions:
-  _CONFIG: test
