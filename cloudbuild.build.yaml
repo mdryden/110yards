@@ -1,0 +1,28 @@
+steps:
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "version"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - echo VUE_APP_VERSION=$SHORT_SHA >> file && echo VUE_APP_LAST_UPDATED=$(date --iso-8601=minutes) >> .env.local
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "format check"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - yarn prettier --check src/**/*.js
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "unit tests"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - yarn test
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "build"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - yarn install && yarn build --mode $_CONFIG

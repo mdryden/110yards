@@ -12,7 +12,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  let ok = checkAuth(to, next);
+  let ok = checkAuth(to, next)
 
   if (ok) {
     setLeagueId(to)
@@ -21,14 +21,14 @@ router.beforeEach(async (to, from, next) => {
 })
 
 async function checkAuth(to, next) {
-  let allowAnonymous = to.matched.some(record => record.meta.anonymous);
-  let ok = allowAnonymous || (await getCurrentUser()) != null;
+  let allowAnonymous = to.matched.some(record => record.meta.anonymous)
+  let ok = allowAnonymous || (await getCurrentUser()) != null
 
   if (!ok) {
-    next({ name: "login", query: { returnUrl: to.fullPath } });
+    next({ name: "login", query: { returnUrl: to.fullPath } })
   }
 
-  return ok;
+  return ok
 }
 
 function setLeagueId(to) {
