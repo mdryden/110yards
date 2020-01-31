@@ -1,4 +1,15 @@
 steps:
+  - name: "gcr.io/tired-lemur/slackbot"
+    args:
+      [
+        "--build",
+        "$BUILD_ID",
+        "--webhook",
+        $_SLACK_WEBHOOK,
+        "--name",
+        "$_BUILD_NAME",
+      ]
+
   - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
     id: "version"
     entrypoint: /bin/sh
@@ -21,7 +32,7 @@ steps:
       - yarn prettier --check src/**/*.js
 
   - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
-    id: "unit tests"
+    id: "unit test"
     entrypoint: /bin/sh
     args:
       - "-c"
@@ -33,3 +44,23 @@ steps:
     args:
       - "-c"
       - yarn build --mode $_CONFIG
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "deploy"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - firebase deploy --only hosting --token $_FIREBASE_TOKEN --project $PROJECT_ID
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "ui tests (test environment)"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - export BASE_URL=$_BASE_URL && yarn ui-test
+
+  # TODO: deploy to live here
+  # TODO: re-run UI tests here
+
+  substitutions:
+    _CONFIG: test
