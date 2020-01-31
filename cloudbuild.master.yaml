@@ -62,5 +62,5 @@ steps:
   # TODO: deploy to live here
   # TODO: re-run UI tests here
 
-  substitutions:
-    _CONFIG: test
+substitutions:
+  _CONFIG: test

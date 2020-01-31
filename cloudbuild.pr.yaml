@@ -25,7 +25,7 @@ steps:
     entrypoint: /bin/sh
     args:
       - "-c"
-      - yarn build --mode $_CONFIG
+      - yarn build
 
   # TODO: deploy to live here
   # TODO: re-run UI tests here
