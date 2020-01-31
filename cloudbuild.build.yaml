@@ -7,6 +7,13 @@ steps:
       - echo VUE_APP_VERSION=$SHORT_SHA >> file && echo VUE_APP_LAST_UPDATED=$(date --iso-8601=minutes) >> .env.local
 
   - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
+    id: "dependencies"
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - yarn install
+
+  - name: "gcr.io/tired-lemur/frontend-devcontainer:latest"
     id: "format check"
     entrypoint: /bin/sh
     args:
@@ -25,4 +32,4 @@ steps:
     entrypoint: /bin/sh
     args:
       - "-c"
-      - yarn install && yarn build --mode $_CONFIG
+      - yarn build --mode $_CONFIG
