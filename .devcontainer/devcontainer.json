@@ -27,6 +27,7 @@
     "vscode-html-css",
     "esbenp.prettier-vscode",
     "bierner.markdown-preview-github-styles",
-    "orta.vscode-jest"
+    "orta.vscode-jest",
+    "msjsdiag.debugger-for-chrome"
   ]
 }
