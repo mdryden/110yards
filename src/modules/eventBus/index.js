@@ -10,7 +10,9 @@ export default eventBus
 // another file?
 
 function handleException(exception) {
-  let message = exception.response ? exception.response.data : exception.message
+  let message = exception.response.data.message
+    ? exception.response.data.message
+    : exception.message
 
   switch (exception.message) {
     case "Missing or insufficient permissions.": // firestore rule blocked access to resource
