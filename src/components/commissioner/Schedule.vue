@@ -52,8 +52,7 @@
             <label class="control-label"
               >Enable loser playoff?
               <small class="info"
-                >(A single playoff matchup between the bottom two teams in the
-                league)</small
+                >(A playoff matchup between the last place teams)</small
               ></label
             >
             <div class="form-check">
@@ -81,17 +80,13 @@
           <th v-for="x in matchupsPerWeek" :key="x">Matchup {{ x }}</th>
         </tr>
         <tr v-for="week in schedule" :key="week.week_number">
-          <td>{{ week.week_number }}</td>
+          <th>{{ week.week_number }}</th>
           <td v-for="(matchup, index) in week.matchups" :key="index">
-            <span v-if="matchup.type == 'regular'"
+            <span v-if="matchup.type == 'Regular'"
               >{{ matchup.away.name }} @ {{ matchup.home.name }}</span
             >
-            <span v-if="matchup.type != 'regular'">{{ matchup.type }}</span>
+            <span v-if="matchup.type != 'Regular'">{{ matchup.type }}</span>
           </td>
-          <!--<td v-if="matchup.type == 'regular'">
-            {{ matchup.away_name }} @ {{ matchup.home_name }}
-          </td>
-          <td v-if="matcup.type != 'regular'">{{ matchup.type }}</td> -->
         </tr>
       </table>
     </div>
@@ -101,6 +96,19 @@
 <style scoped>
 option.ideal {
   font-weight: bold;
+}
+
+.table {
+  margin-top: 2em;
+}
+
+.table th,
+.table td {
+  padding: 0.5em;
+}
+
+.table tr:nth-child(even) {
+  background-color: var(--bg-color-secondary);
 }
 </style>
 
@@ -136,7 +144,7 @@ export default {
   },
   computed: {
     hasSchedule() {
-      return this.schedule.length > 0
+      return this.league.registration_closed && this.schedule.length > 0
     },
 
     enoughTeams() {
@@ -168,7 +176,9 @@ export default {
     },
 
     canUseLoserPlayoff() {
-      let canUse = this.form.playoffType && this.form.playoffType.id > 3
+      let canUse =
+        this.form.playoffType &&
+        this.managers.length - this.form.playoffType >= 2
 
       if (!canUse && this.form.enableLoserPlayoff)
         this.form.enableLoserPlayoff = false

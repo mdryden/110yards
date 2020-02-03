@@ -3,12 +3,15 @@
 
   --color-primary: #581010;
   --color-secondary: #bf8753;
+
+  --bg-color-primary: #121212;
+  --bg-color-secondary: #222222;
 }
 
 body,
 .table {
   color: var(--text-color);
-  background-color: #121212;
+  background-color: var(--bg-color-primary);
   font-family: "Roboto", sans-serif;
   font-weight: 300;
 }
