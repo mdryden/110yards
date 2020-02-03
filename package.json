@@ -4,13 +4,14 @@
   "private": true,
   "license": "",
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "jest --detectOpenHandles --testPathIgnorePatterns=.*/ui/.* --passWithNoTests",
-    "ui-test": "jest --detectOpenHandles --testPathPatterns=.*/ui/.*",
-    "testAll": "jest --detectOpenHandles",
     "deploy-test": "firebase deploy --only hosting",
-    "predeploy-test": "yarn build --mode test"
+    "format": "prettier --check src/**/*.js",
+    "predeploy-test": "yarn build --mode test",
+    "serve": "vue-cli-service serve",
+    "test": "jest --detectOpenHandles --testPathIgnorePatterns=.*/ui/.* --passWithNoTests",
+    "testAll": "jest --detectOpenHandles",
+    "ui-test": "jest --detectOpenHandles --testPathPatterns=.*/ui/.*"
   },
   "dependencies": {
     "axios": "^0.19.0",

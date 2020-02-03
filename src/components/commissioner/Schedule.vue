@@ -12,12 +12,16 @@
           <h4>League roster settings</h4>
           <div class="form-group">
             <label># of playoff teams:</label>
-            <select class="form-control" v-model="form.playoffType" required>
+            <select
+              class="form-control"
+              v-model.number="form.playoffType"
+              required
+            >
               <option value=""></option>
               <option
                 v-for="type in eligiblePlayoffTypes"
                 :key="type.id"
-                :value="type"
+                :value="type.id"
                 >{{ type.name }}</option
               >
             </select>
@@ -34,7 +38,7 @@
                 v-for="x in weekCounts"
                 :key="x"
                 v-bind:class="{ ideal: isIdeal(x) }"
-                :value="form.firstPlayoffWeek"
+                :value="x"
                 >{{ x }}</option
               >
             </select>
@@ -70,19 +74,24 @@
       </form>
     </div>
 
-    <div class="row" v-if="schedule.length > 0">
+    <div class="row" v-if="hasSchedule">
       <table class="table">
         <tr>
           <th>Week</th>
           <th v-for="x in matchupsPerWeek" :key="x">Matchup {{ x }}</th>
         </tr>
-        <tr v-for="week in schedule" :key="week.number">
-          <td>{{ week.number }}</td>
-          <td v-for="matchup in week.matchups" :key="matchup.id"></td>
-          <td v-if="matchup.type == 'regular'">
+        <tr v-for="week in schedule" :key="week.week_number">
+          <td>{{ week.week_number }}</td>
+          <td v-for="(matchup, index) in week.matchups" :key="index">
+            <span v-if="matchup.type == 'regular'"
+              >{{ matchup.away.name }} @ {{ matchup.home.name }}</span
+            >
+            <span v-if="matchup.type != 'regular'">{{ matchup.type }}</span>
+          </td>
+          <!--<td v-if="matchup.type == 'regular'">
             {{ matchup.away_name }} @ {{ matchup.home_name }}
           </td>
-          <td v-if="matcup.type != 'regular'">{{ matchup.type }}</td>
+          <td v-if="matcup.type != 'regular'">{{ matchup.type }}</td> -->
         </tr>
       </table>
     </div>
@@ -109,11 +118,12 @@ export default {
     SavedIndicator,
   },
   props: {
-    league: {},
+    leagueId: String,
   },
   data() {
     return {
-      schedule: {},
+      league: {},
+      schedule: [],
       managers: [],
       playoffTypes: [],
       form: {
@@ -125,23 +135,29 @@ export default {
     }
   },
   computed: {
+    hasSchedule() {
+      return this.schedule.length > 0
+    },
+
     enoughTeams() {
       return this.managers.length % 2 == 0
     },
+
     eligiblePlayoffTypes() {
       return this.playoffTypes.filter(x => x.id <= this.managers.length)
     },
+
     weekCounts() {
       const lastWeek = 21
       if (this.form.playoffType == null) return null
 
       let counts = _.range(1, lastWeek + 1).filter(
-        week =>
-          week >= this.managers.length &&
-          week + this.form.playoffType.weeks <= lastWeek,
+        week => week >= this.managers.length, //&&
+        // week + this.form.playoffType.weeks <= lastWeek,
       )
       return counts
     },
+
     matchupsPerWeek() {
       return this.managers.length / 2
     },
@@ -175,7 +191,8 @@ export default {
         firstPlayoffWeek: this.form.firstPlayoffWeek,
         enableLoserPlayoff: this.form.enableLoserPlayoff,
       }
-      await leagueService.generateSchedule(user, this.league.id, options)
+
+      await leagueService.generateSchedule(user, this.leagueId, options)
       this.saved = true
     },
 
@@ -196,20 +213,33 @@ export default {
       )
     },
 
+    bindLeague(leagueId) {
+      this.$bind("league", firestore.doc(`league/${leagueId}`))
+    },
+
     bindPlayoffTypes() {
       this.$bind("playoffTypes", firestore.collection(`playoff-types`))
     },
   },
   watch: {
+    leagueId: {
+      immediate: true,
+      handler(leagueId) {
+        if (leagueId == null) return
+
+        this.bindLeague(leagueId)
+        this.bindSchedule(leagueId)
+        this.bindManagers(leagueId)
+      },
+    },
+
     league: {
       immediate: true,
       handler(league) {
         if (league == null) return
-
-        this.bindSchedule(league.id)
-        this.bindManagers(league.id)
-
-        this.playoffType = league.playoffType || 0
+        this.form.playoffType = league.playoffType
+        this.form.firstPlayoffWeek = league.firstPlayoffWeek
+        this.form.enableLoserPlayoff = league.enableLoserPlayoff
       },
     },
   },
