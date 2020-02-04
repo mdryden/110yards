@@ -14,7 +14,7 @@ module.exports.takeScreenshot = async (browserName, browser, imageName) => {
   )
 }
 
-module.exports.getElementById = async (browser, id, timeout = 2000) => {
+module.exports.getElementById = async (browser, id, timeout = 5000) => {
   const el = await browser.wait(until.elementLocated(By.id(id)), timeout)
   return await browser.wait(until.elementIsVisible(el), timeout)
 }
