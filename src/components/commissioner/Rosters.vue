@@ -89,17 +89,11 @@ export default {
 
     async save() {
       let user = this.$store.state.currentUser
-      try {
-        await leagueService.updateRosterPositions(
-          user,
-          this.leagueId,
-          this.leaguePositions,
-        )
-
-        this.saved = true
-      } catch (exception) {
-        this.$eventBus.$emit("exception", exception)
-      }
+      await leagueService.updateRosterPositions(
+        user,
+        this.leagueId,
+        this.leaguePositions,
+      )
     },
 
     async bindLeague(leagueId) {
