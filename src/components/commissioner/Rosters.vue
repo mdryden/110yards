@@ -94,6 +94,8 @@ export default {
         this.leagueId,
         this.leaguePositions,
       )
+
+      this.saved = true
     },
 
     async bindLeague(leagueId) {
