@@ -8,7 +8,9 @@ import Register from "../../components/auth/Register.vue"
 import CreateLeague from "../../views/league/Create.vue"
 import LeagueIndex from "../../views/league/Index.vue"
 import Join from "../../views/league/Join.vue"
-import JoinDirect from "@/views/league/JoinDirect.vue"
+import JoinDirect from "../../views/league/JoinDirect.vue"
+import Matchup from "../../views/league/roster/Matchup.vue"
+import Roster from "../../views/league/roster/Roster.vue"
 
 import CommissionerIndex from "../../views/commissioner/Index.vue"
 
@@ -71,15 +73,22 @@ export const routes = [
     component: LeagueIndex,
   },
   {
+    path: "/league/:leagueId/matchup/:matchupId",
+    name: "matchup",
+    component: Matchup,
+    props: true,
+  },
+  {
     path: "/league/:leagueId/roster",
     name: "user-roster",
-    component: null,
+    props: true, // todo: how to set roster id from current user id?
+    component: Roster,
   },
   {
     path: "/league/:leagueId/roster/:rosterId",
     name: "roster",
     props: true,
-    component: null,
+    component: Roster,
   },
   {
     path: "/league/:leagueId/players",
