@@ -1,5 +1,5 @@
 <template>
-  <tr class="matchup @futureClass" onclick="@onclick">
+  <tr class="matchup" v-on:click="viewMatchup()">
     <td class="roster roster-away">
       <p v-if="matchup.away">
         <router-link
@@ -58,6 +58,14 @@ export default {
     },
     matchupStateClass(scoreFor, scoreAgainst) {
       return scoreFor > scoreAgainst ? "winning" : ""
+    },
+  },
+  methods: {
+    viewMatchup() {
+      this.$router.push({
+        name: "matchup",
+        params: { leagueId, matchupId: matchup.id },
+      })
     },
   },
 }
