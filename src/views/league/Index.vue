@@ -23,7 +23,7 @@
             <h6 class="hidden-md hidden-lg">Next game: @nextGame.Team1.Abbreviation vs @nextGame.Team2.Abbreviation <span title="@nextGame.DateStart.ToString("dddd MMMM d, h:mm tt")">@nextGame.DateStart.Remaining("live now")</span></h6>
       }-->
       <hr />
-      <div
+      <!-- <div
         id="matchups-carousel"
         class="carousel slide"
         data-ride="carousel"
@@ -81,7 +81,7 @@
           </div>
           }
         </div>
-      </div>
+      </div> -->
       <start-draft :league="league" />
       <section id="standings">
         <h5>Standings</h5>
@@ -143,14 +143,14 @@
 <script>
 import { firestore } from "../../modules/firebase"
 import StartDraft from "../../components/commissioner/StartDraft"
-import MatchupPreview from "./MatchupPreview.vue"
+// import MatchupPreview from "./MatchupPreview.vue"
 
 export default {
   name: "league-index",
   props: ["leagueId"],
   components: {
     StartDraft,
-    MatchupPreview,
+    // MatchupPreview,
   },
   data() {
     return {

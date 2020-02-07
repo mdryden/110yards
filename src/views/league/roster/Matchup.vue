@@ -25,7 +25,7 @@ export default {
     Roster,
   },
   props: {
-    matchup,
+    matchup: Object,
   },
   data() {
     return {
