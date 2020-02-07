@@ -37,3 +37,7 @@ export const removeManager = async (user, leagueId, managerId) => {
 export const generateSchedule = async (user, leagueId, options) => {
   return client.put(user, `/league/${leagueId}/schedule`, options)
 }
+
+export const beginDraft = async (user, leagueId) => {
+  return client.post(user, `/league/${leagueId}/draft`)
+}

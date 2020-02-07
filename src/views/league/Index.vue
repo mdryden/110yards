@@ -8,7 +8,7 @@
             //string gameTime;
             //if (nextGame.DateStart > DateTime.Now)
             //{
-            //	var useDays = timeToNextGame.Value.TotalHours > 24;
+            //	var useDays = timeToNextGame.Value.TotalHours > 24;    v
             //	var useHours = timeToNextGame.Value.TotalMinutes > 60;
 
             //	var numberFormat = useDays ? @"%d" : (useHours ? @"%h" : @"%m");
@@ -23,53 +23,66 @@
             <h6 class="hidden-md hidden-lg">Next game: @nextGame.Team1.Abbreviation vs @nextGame.Team2.Abbreviation <span title="@nextGame.DateStart.ToString("dddd MMMM d, h:mm tt")">@nextGame.DateStart.Remaining("live now")</span></h6>
       }-->
       <hr />
-      <!-- <div id="matchups-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
-
-            <div class="carousel-inner" role="listbox">
-                @foreach (var week in Model.Weeks)
-                {
-                    var heading = week.Type == WeekType.Regular ? $"Week {week.WeekNumber}" : $"Week {week.WeekNumber} - {week.Type.ToString()}";
-                    var activeClass = week.WeekNumber == Model.League.CurrentWeek.WeekNumber ? "active" : "";
-                    <div class="item @activeClass">
-                        <table class="table table-condensed">
-                            <thead>
-                                <tr>
-                                    <th colspan="4">
-                                        @if (week.WeekNumber != Model.Weeks.First().WeekNumber)
-                                        {
-                                            <a class="" href="#matchups-carousel" role="button" data-slide="prev">
-                                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        }
-                                        @heading
-                                        @if (week.WeekNumber != Model.Weeks.Last().WeekNumber)
-                                        {
-                                            <a class="" href="#matchups-carousel" role="button" data-slide="next">
-                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        }
-                                    </th>
-                                </tr>
-                            </thead>
-                            @{ var matchupIndex = 0; }
-                            @foreach (var matchup in week.Matchups)
-                            {
-                                ViewBag.Future = week.WeekNumber > Model.League.CurrentWeek.WeekNumber;
-                                ViewBag.WeekNumber = week.WeekNumber;
-                                ViewBag.LeagueId = Model.League.Id;
-                                ViewBag.MatchupIndex = matchupIndex++;
-                                <partial name="MatchupRow" model="@matchup" />
-                            }
-                        </table>
-                    </div>
-                }
-            </div>
-      </div>-->
-      <section v-if="canStartDraft">
-        <partial name="BeginDraftButton" model="Model.League" />
-      </section>
+      <div
+        id="matchups-carousel"
+        class="carousel slide"
+        data-ride="carousel"
+        data-interval="false"
+      >
+        <div class="carousel-inner" role="listbox">
+          <div
+            class="item"
+            :class="isCurrentWeek(week) ? 'active' : null"
+            v-for="week in weeks"
+            :key="week.week_number"
+          >
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th colspan="4">
+                    <a
+                      v-if="!isFirstWeek(week)"
+                      class=""
+                      href="#matchups-carousel"
+                      role="button"
+                      data-slide="prev"
+                    >
+                      <span
+                        class="glyphicon glyphicon-chevron-left"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    {{ week.heading }}
+                    <a
+                      v-if="!isLastWeek(week)"
+                      class=""
+                      href="#matchups-carousel"
+                      role="button"
+                      data-slide="next"
+                    >
+                      <span
+                        class="glyphicon glyphicon-chevron-right"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                    }
+                  </th>
+                </tr>
+              </thead>
+              <matchup-preview
+                v-for="matchup in week.matchups"
+                :key="matchup.id"
+                :matchup="matchup"
+                :leagueId="leagueId"
+              />
+            </table>
+          </div>
+          }
+        </div>
+      </div>
+      <start-draft :league="league" />
       <section id="standings">
         <h5>Standings</h5>
 
@@ -88,8 +101,12 @@
           <tr v-for="manager in managers" :key="manager.uid">
             <td>
               <router-link
-                :to="{ name: 'roster', params: { leagueId: leagueId, rosterId: manager.uid}}"
-              >{{ manager.name }}</router-link>
+                :to="{
+                  name: 'roster',
+                  params: { leagueId: leagueId, rosterId: manager.uid },
+                }"
+                >{{ manager.name }}</router-link
+              >
               <span v-if="isCommissioner" class="glyphicon glyphicon-star">
                 <span class="sr-only">Commissioner</span>
               </span>
@@ -106,8 +123,9 @@
       <small v-if="isCommissioner">
         <router-link
           class="nav-item nav-link"
-          :to="{ name: 'commissioner', params: {leagueId: leagueId}}"
-        >Commissioner Tools</router-link>
+          :to="{ name: 'commissioner', params: { leagueId: leagueId } }"
+          >Commissioner Tools</router-link
+        >
       </small>
       <!-- @if (Model.Transactions?.Any() == true)
       {
@@ -124,14 +142,21 @@
 
 <script>
 import { firestore } from "../../modules/firebase"
+import StartDraft from "../../components/commissioner/StartDraft"
+import MatchupPreview from "./MatchupPreview.vue"
 
 export default {
   name: "league-index",
   props: ["leagueId"],
+  components: {
+    StartDraft,
+    MatchupPreview,
+  },
   data() {
     return {
       league: null,
       managers: [],
+      weeks: [],
     }
   },
   computed: {
@@ -145,27 +170,39 @@ export default {
       return this.league.commissioner_id == this.$store.state.currentUser.uid
     },
   },
+  methods: {
+    isCurrentWeek(week) {
+      return false // todo: implement
+    },
+    isFirstWeek(week) {
+      return false // todo: implement
+    },
+    isLastWeek(week) {
+      return false // todo: implement
+    },
+  },
   watch: {
     leagueId: {
       immediate: true,
-      async handler(leagueId) {
+      handler(leagueId) {
         if (leagueId == null) return
 
-        try {
-          await this.$bind(
-            "league",
-            firestore.collection("league").doc(leagueId),
-          )
-          await this.$bind(
-            "managers",
+        this.$bind("league", firestore.collection("league").doc(leagueId))
+        this.$bind(
+          "managers",
+          firestore
+            .collection("league")
+            .doc(leagueId)
+            .collection("managers"),
+
+          this.$bind(
+            "weeks",
             firestore
               .collection("league")
               .doc(leagueId)
-              .collection("managers"),
-          )
-        } catch (exception) {
-          this.$eventBus.$emit("exception", exception)
-        }
+              .collection("weeks"),
+          ),
+        )
       },
     },
   },
