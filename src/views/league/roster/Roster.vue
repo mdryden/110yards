@@ -15,7 +15,7 @@
         <th class="text-right" v-if="includeProjection">Proj</th>
       </tr>
     </thead>
-    <roster-row :includeProjection="includeProjection" v-for="spot in activeRosterSpots" :key="spot.id">
+    <!-- <roster-row :includeProjection="includeProjection" v-for="spot in activeRosterSpots()" :key="spot.id"> -->
     <tr>
       <th>Total</th>
       <th></th>
@@ -26,14 +26,13 @@
     <tr>
       <td :colspan="includeProjection ? 5 : 4">&nbsp;</td>
     </tr>
-    <roster-row :includeProjection="includeProjection" v-for="spot in benchPlayers" :key="spot.id" />
+    <!-- <roster-row :includeProjection="includeProjection" v-for="spot in benchPlayers()" :key="spot.id" /> -->
     <tr>
       <th>Bench</th>
       <th></th>
       <th></th>
       <th class="text-right">{{ benchScore }}</th>
       <th v-if="includeProjection" class="text-right">{{ benchProjection }}</th>
-      }
     </tr>
   </table>
 </template>
@@ -76,11 +75,11 @@ export default {
       return [] // todo: implement
     },
     benchScore() {
-        return 0;
+      return 0
     },
     benchProjection() {
-        return 0;
-    }
+      return 0
+    },
   },
 }
 </script>
