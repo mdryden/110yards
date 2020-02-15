@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-md-8" v-if="league != null">
       <h4 class="brand">{{ league.name }}</h4>
+      <start-draft :league="league" />
       <!-- <p><a target="_blank" href="@Url.Action("Scoring", "Help", new { id = Model.ScoringSettings.ScoringSettingsId })">@Model.League.ScoringSettings.Name scoring</a></p> -->
       <!-- @if (nextGame != null)
         {
@@ -23,7 +24,7 @@
             <h6 class="hidden-md hidden-lg">Next game: @nextGame.Team1.Abbreviation vs @nextGame.Team2.Abbreviation <span title="@nextGame.DateStart.ToString("dddd MMMM d, h:mm tt")">@nextGame.DateStart.Remaining("live now")</span></h6>
       }-->
       <hr />
-      <!-- <div
+      <div
         id="matchups-carousel"
         class="carousel slide"
         data-ride="carousel"
@@ -31,7 +32,7 @@
       >
         <div class="carousel-inner" role="listbox">
           <div
-            class="item"
+            class="carousel-item"
             :class="isCurrentWeek(week) ? 'active' : null"
             v-for="week in weeks"
             :key="week.week_number"
@@ -48,7 +49,7 @@
                       data-slide="prev"
                     >
                       <span
-                        class="glyphicon glyphicon-chevron-left"
+                        class="carousel-control-icon carousel-control-prev-icon"
                         aria-hidden="true"
                       ></span>
                       <span class="sr-only">Previous</span>
@@ -56,18 +57,16 @@
                     {{ week.heading }}
                     <a
                       v-if="!isLastWeek(week)"
-                      class=""
                       href="#matchups-carousel"
                       role="button"
                       data-slide="next"
                     >
                       <span
-                        class="glyphicon glyphicon-chevron-right"
+                        class="carousel-control-icon carousel-control-next-icon"
                         aria-hidden="true"
                       ></span>
                       <span class="sr-only">Next</span>
                     </a>
-                    }
                   </th>
                 </tr>
               </thead>
@@ -79,10 +78,8 @@
               />
             </table>
           </div>
-          }
         </div>
-      </div> -->
-      <start-draft :league="league" />
+      </div>
       <section id="standings">
         <h5>Standings</h5>
 
@@ -140,17 +137,23 @@
   </div>
 </template>
 
+<style scoped>
+.carousel-control-icon {
+  height: 0.8em;
+}
+</style>
+
 <script>
 import { firestore } from "../../modules/firebase"
 import StartDraft from "../../components/commissioner/StartDraft"
-// import MatchupPreview from "./MatchupPreview.vue"
+import MatchupPreview from "./MatchupPreview.vue"
 
 export default {
   name: "league-index",
   props: ["leagueId"],
   components: {
     StartDraft,
-    // MatchupPreview,
+    MatchupPreview,
   },
   data() {
     return {
@@ -160,9 +163,6 @@ export default {
     }
   },
   computed: {
-    canStartDraft() {
-      //if (Model.League.DraftState != DraftState.Complete && UserHelper.IsUserCommissioner(User, Model.League))
-    },
     isCommissioner() {
       if (this.league == null || this.$store.state.currentUser == null)
         return false
@@ -172,13 +172,16 @@ export default {
   },
   methods: {
     isCurrentWeek(week) {
-      return false // todo: implement
+      return week.week_number == 1 // todo: implement
     },
     isFirstWeek(week) {
-      return false // todo: implement
+      return this.weeks != null && this.weeks[0].week_number == week.week_number
     },
     isLastWeek(week) {
-      return false // todo: implement
+      return (
+        this.weeks != null &&
+        this.weeks[this.weeks.length - 1].week_number == week.week_number
+      ) // todo: implement
     },
   },
   watch: {

@@ -4,6 +4,7 @@ import router from "../router"
 const eventBus = new Vue()
 
 eventBus.$on("exception", handleException)
+eventBus.$on("nullResponse", handleNullResponse)
 
 export default eventBus
 
@@ -23,4 +24,8 @@ function handleException(exception) {
       router.push({ name: "error", params: { message: message } })
       break
   }
+}
+
+function handleNullResponse(exception) {
+  router.push({ name: "error", params: { message: exception.message } })
 }

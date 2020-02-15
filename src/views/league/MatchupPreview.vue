@@ -12,7 +12,6 @@
         <small>{{ matchup.away.record }}</small>
       </p>
       <p v-if="!matchup.away">{{ noTeamText }}</p>
-      }
     </td>
     <td
       class="score score-away"
@@ -54,13 +53,13 @@ export default {
   },
   computed: {
     noTeamText() {
-      return leagueStarted ? "Bye" : "TBD"
-    },
-    matchupStateClass(scoreFor, scoreAgainst) {
-      return scoreFor > scoreAgainst ? "winning" : ""
+      return this.leagueStarted ? "Bye" : "TBD"
     },
   },
   methods: {
+    matchupStateClass(scoreFor, scoreAgainst) {
+      return scoreFor > scoreAgainst ? "winning" : ""
+    },
     viewMatchup() {
       this.$router.push({
         name: "matchup",

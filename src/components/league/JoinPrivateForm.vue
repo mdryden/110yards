@@ -49,25 +49,19 @@ export default {
       if (this.leagueId && this.currentUser) {
         this.joining = true
 
-        try {
-          await leagueService.join(
-            this.currentUser,
-            this.leagueId,
-            this.password,
-          )
+        let result = await leagueService.join(
+          this.currentUser,
+          this.leagueId,
+          this.password,
+        )
 
+        if (result.success) {
           this.$router.push({
             name: "league",
             params: { leagueId: this.leagueId },
           })
-        } catch (exception) {
-          console.error(`error: ${exception.message}`)
-
-          if (exception.response.status == 403) {
-            alert("League password was incorrect.")
-          } else {
-            alert(`Unable to join league: ${exception.response.message}`)
-          }
+        } else {
+          alert("League password was incorrect.")
         }
       }
     },

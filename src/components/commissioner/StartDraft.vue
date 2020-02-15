@@ -18,7 +18,7 @@
 
 <style scoped>
 .draft-button .btn {
-  margin: 1em;
+  /* margin: 1em; */
 }
 </style>
 
@@ -37,7 +37,11 @@ export default {
       return this.league.commissioner_id == this.$store.state.uid
     },
     canStartDraft() {
-      return this.isCommissioner && this.league.draft_state == "NotStarted"
+      return (
+        this.isCommissioner &&
+        this.league.draft_state == "NotStarted" &&
+        this.league.schedule_generated
+      )
     },
     canResumeDraft() {
       return this.isCommissioner && this.league.draft_state == "InProgress"

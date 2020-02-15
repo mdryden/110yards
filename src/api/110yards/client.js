@@ -19,6 +19,12 @@ instance.interceptors.response.use(
   },
   error => {
     eventBus.$emit("loading-stop")
+    if (error.response == undefined) {
+      let exception = new Error(error.message)
+      eventBus.$emit("nullResponse", exception)
+      return
+    }
+
     if (error.response.status == 500) {
       eventBus.$emit("exception", error)
       return

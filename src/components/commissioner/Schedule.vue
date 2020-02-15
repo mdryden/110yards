@@ -89,6 +89,8 @@
           </td>
         </tr>
       </table>
+
+      <start-draft :league="league" />
     </div>
   </div>
 </template>
@@ -117,6 +119,7 @@ import _ from "lodash"
 import { firestore } from "../../modules/firebase"
 import * as leagueService from "../../api/110yards/league"
 import SavedIndicator from "../SavedIndicator"
+import StartDraft from "./StartDraft"
 
 // TODO: move some of the logic in these methods into a service object
 
@@ -124,6 +127,7 @@ export default {
   name: "schedule",
   components: {
     SavedIndicator,
+    StartDraft,
   },
   props: {
     leagueId: String,

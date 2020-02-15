@@ -15,7 +15,6 @@ export default {
   name: "join-direct",
   props: {
     joinId: String,
-    password: String,
   },
   components: {
     JoinPrivateForm,
