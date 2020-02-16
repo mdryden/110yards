@@ -1,17 +1,17 @@
 <template>
   <tr class="matchup" v-on:click="viewMatchup()">
     <td class="roster roster-away">
-      <p v-if="matchup.away">
+      <div v-if="matchup.away" class="team-name">
         <router-link
           :to="{
             name: 'roster',
-            props: { leagueId, rosterId: matchup.away.id },
+            params: { leagueId: leagueId, rosterId: matchup.away.uid },
           }"
           >{{ matchup.away.name }}</router-link
         >
-        <small>{{ matchup.away.record }}</small>
-      </p>
-      <p v-if="!matchup.away">{{ noTeamText }}</p>
+        <div class="record">{{ matchup.away.record }}</div>
+      </div>
+      <div v-if="!matchup.away" class="team-name">{{ noTeamText }}</div>
     </td>
     <td
       class="score score-away"
@@ -28,20 +28,26 @@
       {{ matchup.home_score }}
     </td>
     <td class="roster roster-home">
-      <p v-if="matchup.home">
+      <div v-if="matchup.home" class="team-name">
         <router-link
           :to="{
             name: 'roster',
-            props: { leagueId, rosterId: matchup.home.id },
+            params: { leagueId: leagueId, rosterId: matchup.home.uid },
           }"
           >{{ matchup.home.name }}</router-link
         >
-        <small>{{ matchup.home.record }}</small>
-      </p>
-      <p v-if="!matchup.home">TBD</p>
+        <div class="record">{{ matchup.home.record }}</div>
+      </div>
+      <p v-if="!matchup.home" class="team-name">TBD</p>
     </td>
   </tr>
 </template>
+
+<style scoped>
+.team-name {
+  text-align: center;
+}
+</style>
 
 <script>
 export default {
@@ -49,7 +55,6 @@ export default {
   props: {
     matchup: Object,
     leagueId: String,
-    leagueStarted: Boolean,
   },
   computed: {
     noTeamText() {

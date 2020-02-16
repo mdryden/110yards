@@ -8,8 +8,8 @@
           <hr />
           <h5>My Teams - Week {{ weekNumber }}</h5>
           <table class="table table-condensed">
-            <tbody>
-              <tr v-for="league in leagues" :key="league.leagueId">
+            <tbody v-for="league in leagues" :key="league.leagueId">
+              <tr>
                 <td colspan="4" class="league-heading">
                   <router-link
                     :to="{
@@ -20,6 +20,10 @@
                   >
                 </td>
               </tr>
+              <matchup-preview
+                :leagueId="league.leagueId"
+                :matchup="league.matchup"
+              />
               <!-- <partial name="MatchupRow" model="@matchup.Matchup" />} -->
             </tbody>
           </table>
@@ -47,16 +51,25 @@
   </div>
 </template>
 
+<style scoped>
+.league-heading {
+  text-align: center;
+}
+</style>
+
 <script>
 import { firestore } from "../modules/firebase"
+import MatchupPreview from "../components/league/MatchupPreview"
 
 export default {
   name: "home",
+  components: {
+    MatchupPreview,
+  },
   data() {
     return {
       matchups: null,
       matchupsCount: 0,
-      weekNumber: 0,
       leagues: [],
       hasLeagues: false,
       leaguesUnsubscribe: null,
@@ -71,6 +84,9 @@ export default {
     },
     randomSlogan() {
       return "12 > 11"
+    },
+    weekNumber() {
+      return this.$store.state.systemState.current_week
     },
   },
   methods: {

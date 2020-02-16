@@ -146,7 +146,7 @@
 <script>
 import { firestore } from "../../modules/firebase"
 import StartDraft from "../../components/commissioner/StartDraft"
-import MatchupPreview from "./MatchupPreview.vue"
+import MatchupPreview from "../../components/league/MatchupPreview"
 
 export default {
   name: "league-index",

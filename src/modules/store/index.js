@@ -13,6 +13,7 @@ export default new Vuex.Store({
     currentLeague: null,
     currentRoles: [],
     isAdmin: false,
+    systemState: null,
   },
   mutations: {
     logIn(state, data) {
@@ -21,6 +22,7 @@ export default new Vuex.Store({
       state.uid = data.user.uid
       state.currentRoles = data.roles || []
       state.isAdmin = state.currentRoles.includes("ADMIN")
+      state.systemState = data.systemState
     },
     logOut(state) {
       state.currentUser = null
@@ -37,13 +39,14 @@ export default new Vuex.Store({
     async updateUser({ commit }, user) {
       if (user) {
         let roles = (await firestore.doc(`user_roles/${user.uid}`).get()).data()
+        let systemState = (await firestore.doc("admin/state").get()).data()
 
         // undefined for most users
         if (roles) {
           roles = roles.roles
         }
 
-        commit("logIn", { user: user, roles: roles })
+        commit("logIn", { user: user, roles: roles, systemState: systemState })
       } else {
         commit("logOut")
       }
