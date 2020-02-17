@@ -10,10 +10,15 @@
         >&nbsp;|
         <a href="#" @click.prevent="setView('league-options')">League options</a
         >&nbsp;|
+        <a
+          href="#"
+          v-if="canSetDraftOrder"
+          @click.prevent="setView('draft-order')"
+          >Draft Order</a
+        ><span v-if="canSetDraftOrder">&nbsp;| </span>
         <a href="#" @click.prevent="setView('rosters')">Roster options</a
         >&nbsp;|
         <a href="#" @click.prevent="setView('schedule')">Schedule settings</a>
-        <!-- <partial name="BeginDraftButton" model="@Model.League" /> -->
       </div>
     </div>
 
@@ -21,18 +26,16 @@
     <registration v-if="view == 'registration'" :league="league" />
     <manage-teams v-if="view == 'manage-teams'" :leagueId="leagueId" />
     <league-options v-if="view == 'league-options'" :league="league" />
+    <draft-order v-if="view == 'draft-order'" :league="league" />
     <rosters v-if="view == 'rosters'" :leagueId="leagueId" />
     <schedule v-if="view == 'schedule'" :leagueId="leagueId" />
     <hr />
-
-    <div class="row" v-if="!league.isLocked"></div>
-
-    <div class="row" v-if="!league.registrationClosed && !isFull"></div>
   </div>
 </template>
 
 <script>
 import { firestore } from "../../modules/firebase"
+import DraftOrder from "../../components/commissioner/DraftOrder"
 import LeagueOptions from "../../components/commissioner/LeagueOptions"
 import ManageTeams from "../../components/commissioner/ManageTeams"
 import Registration from "../../components/commissioner/Registration"
@@ -42,6 +45,7 @@ import Schedule from "../../components/commissioner/Schedule"
 export default {
   name: "commissioner-index",
   components: {
+    DraftOrder,
     LeagueOptions,
     ManageTeams,
     Registration,
@@ -56,7 +60,9 @@ export default {
     }
   },
   computed: {
-    isFull() {},
+    canSetDraftOrder() {
+      return this.league != null && this.league.draft_type == "Snake"
+    },
   },
 
   methods: {

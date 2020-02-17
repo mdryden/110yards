@@ -35,6 +35,15 @@
           <input type="text" v-model="form.password" class="form-control" />
         </div>
 
+        <div class="form-group">
+          <label>Draft Type</label>
+          <select v-model="form.draft_type" class="form-control" required>
+            <option value=""></option>
+            <option value="Snake">Snake</option>
+            <option value="Commissioner">Commissioner</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-default">Update</button>
         <saved-indicator :saved="saved" />
       </form>
@@ -61,6 +70,7 @@ export default {
         name: null,
         isPrivate: false,
         password: null,
+        draft_type: null,
       },
       saved: false,
     }
@@ -79,6 +89,7 @@ export default {
         name: this.form.name,
         private: this.form.isPrivate,
         password: this.form.password,
+        draft_type: this.form.draft_type,
       }
       await leagueService.update(user, this.league.id, options)
       this.saved = true
@@ -102,6 +113,7 @@ export default {
         this.form.name = league.name
         this.form.isPrivate = league.private
         this.form.password = privateSettings.password
+        this.form.draft_type = league.draft_type
       },
     },
     form: {
