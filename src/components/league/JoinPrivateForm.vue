@@ -61,7 +61,7 @@ export default {
             params: { leagueId: this.leagueId },
           })
         } else {
-          alert("League password was incorrect.")
+          alert(result.message)
         }
       }
     },

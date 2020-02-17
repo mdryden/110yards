@@ -10,7 +10,7 @@
           <table class="table table-condensed">
             <tbody v-for="league in leagues" :key="league.leagueId">
               <tr>
-                <td colspan="4" class="league-heading">
+                <td colspan="5" class="league-heading">
                   <router-link
                     :to="{
                       name: 'league',
@@ -22,6 +22,7 @@
               </tr>
               <matchup-preview
                 :leagueId="league.leagueId"
+                :weekNumber="weekNumber"
                 :matchup="league.matchup"
               />
               <!-- <partial name="MatchupRow" model="@matchup.Matchup" />} -->

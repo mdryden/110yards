@@ -91,28 +91,6 @@ article.cfl-news label {
   font-weight: bold;
 }
 
-tr.matchup-active:hover {
-  cursor: pointer;
-  background-color: #111;
-}
-
-.matchup td.roster {
-  width: 35%;
-}
-
-.matchup td.roster-home {
-  text-align: right;
-}
-
-.matchup td.score {
-  width: 15%;
-}
-
-.matchup td.score-away {
-  text-align: right;
-  border-right: 1px solid #111;
-}
-
 .winning {
   font-weight: bold;
 }

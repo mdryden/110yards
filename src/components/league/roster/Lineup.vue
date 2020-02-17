@@ -1,5 +1,5 @@
 <template>
-  <table v-if="rostersConfig" class="table table-condensed">
+  <table v-if="rostersConfig" class="lineup table table-condensed">
     <thead>
       <tr>
         <th :colspan="includeProjection ? 5 : 4" class="text-right">
@@ -54,6 +54,8 @@
     </tr>
   </table>
 </template>
+
+<style scoped></style>
 
 <script>
 import { firestore } from "../../../modules/firebase"

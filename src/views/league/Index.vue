@@ -25,6 +25,7 @@
       }-->
       <hr />
       <div
+        v-if="league.schedule_generated"
         id="matchups-carousel"
         class="carousel slide"
         data-ride="carousel"
@@ -40,7 +41,7 @@
             <table class="table table-condensed">
               <thead>
                 <tr>
-                  <th colspan="4">
+                  <th colspan="5">
                     <a
                       v-if="!isFirstWeek(week)"
                       class=""
@@ -75,6 +76,7 @@
                 :key="matchup.id"
                 :matchup="matchup"
                 :leagueId="leagueId"
+                :weekNumber="week.week_number"
               />
             </table>
           </div>

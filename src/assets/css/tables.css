@@ -1,7 +1,7 @@
 .table td,
 .table th {
   border: inherit;
-  padding: inherit;
+  padding: 0.3em;
 }
 
 .table > tbody > tr > td,

@@ -73,7 +73,7 @@ export const routes = [
     component: LeagueIndex,
   },
   {
-    path: "/league/:leagueId/matchup/:matchupId",
+    path: "/league/:leagueId/week/:weekNumber/matchup/:matchupId",
     name: "matchup",
     component: Matchup,
     props: true,
