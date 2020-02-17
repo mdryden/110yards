@@ -16,11 +16,7 @@
   </div>
 </template>
 
-<style scoped>
-.draft-button .btn {
-  /* margin: 1em; */
-}
-</style>
+<style scoped></style>
 
 <script>
 import * as leagueService from "../../api/110yards/league"
@@ -57,7 +53,10 @@ export default {
         this.league.id,
       )
 
-      this.$router.push({ name: "draft", params: { leagueId: this.league.id } })
+      this.$router.push({
+        name: "draft",
+        params: { leagueId: this.league.id },
+      })
     },
   },
 }
