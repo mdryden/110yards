@@ -10,7 +10,6 @@ export default new Vuex.Store({
     isAnonymous: true,
     uid: null,
     currentLeagueId: null,
-    currentLeague: null,
     currentRoles: [],
     isAdmin: false,
     systemState: null,

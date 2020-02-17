@@ -31,9 +31,12 @@
         >
 
         <router-link
-          v-if="leagueId"
+          v-if="leagueId && userId"
           class="nav-item nav-link"
-          :to="{ name: 'user-roster', params: { leagueId: leagueId } }"
+          :to="{
+            name: 'roster',
+            params: { leagueId: leagueId, rosterId: userId },
+          }"
           >My Team</router-link
         >
 
@@ -110,6 +113,9 @@ export default {
     },
     username() {
       return this.isAnonymous ? "" : this.$store.state.currentUser.displayName
+    },
+    userId() {
+      return this.isAnonymous ? "" : this.$store.state.uid
     },
     leagueId() {
       return this.$store.state.currentLeagueId

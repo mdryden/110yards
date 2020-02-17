@@ -1,84 +1,73 @@
 <template>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th colspan="2">{{ roster.name }}</th>
-        <th :colspan="includeProjection ? 2 : 1" class="text-right">
-          {{ playedCount }} / {{ activeRosterSpotsCount }} played
-        </th>
-      </tr>
-      <tr>
-        <th>Pos</th>
-        <th>Name</th>
-        <th>Opp</th>
-        <th class="text-right">Pts</th>
-        <th class="text-right" v-if="includeProjection">Proj</th>
-      </tr>
-    </thead>
-    <!-- <roster-row :includeProjection="includeProjection" v-for="spot in activeRosterSpots()" :key="spot.id"> -->
-    <tr>
-      <th>Total</th>
-      <th></th>
-      <th></th>
-      <th class="text-right">{{ totalScore }}</th>
-      <th v-if="includeProjection" class="text-right">{{ totalProjection }}</th>
-    </tr>
-    <tr>
-      <td :colspan="includeProjection ? 5 : 4">&nbsp;</td>
-    </tr>
-    <!-- <roster-row :includeProjection="includeProjection" v-for="spot in benchPlayers()" :key="spot.id" /> -->
-    <tr>
-      <th>Bench</th>
-      <th></th>
-      <th></th>
-      <th class="text-right">{{ benchScore }}</th>
-      <th v-if="includeProjection" class="text-right">{{ benchProjection }}</th>
-    </tr>
-  </table>
+  <div class="roster">
+    <h3 v-if="manager">{{ manager.name }}</h3>
+    <lineup :roster="roster" :leagueId="leagueId" :includeProjection="true" />
+  </div>
 </template>
 
 <script>
-import RosterRow from "./RosterRow.vue"
+import { firestore } from "../../../modules/firebase"
+import Lineup from "../../../components/league/roster/Lineup"
 
 export default {
   name: "roster",
   components: {
-    RosterRow,
+    Lineup,
   },
   props: {
-    roster: Object,
-    isCurrentWeek: Boolean,
+    leagueId: String,
+    rosterId: String,
+  },
+  data() {
+    return {
+      roster: {},
+      manager: {},
+      rosterConfig: {},
+    }
   },
   computed: {
-    currentLeague() {
-      return this.$store.state.currentLeague
+    currentWeek() {
+      return this.$store.state.systemState.current_week
     },
-    includeProjection() {
-      return this.isCurrentWeek
+  },
+  methods: {
+    bindRoster(leagueId, rosterId) {
+      let ref = firestore
+        .collection("league")
+        .doc(leagueId)
+        .collection("rosters")
+        .doc(rosterId)
+
+      this.$bind("roster", ref)
     },
-    activeRosterSpotsCount() {
-      return this.currentLeague.active_roster_spots // todo: store this when configuring rosters
+    bindManager(leagueId, rosterId) {
+      let ref = firestore
+        .collection("league")
+        .doc(leagueId)
+        .collection("managers")
+        .doc(rosterId)
+
+      this.$bind("manager", ref)
     },
-    playedCount() {
-      return 0 //todo: implement
+  },
+  watch: {
+    leagueId: {
+      immediate: true,
+      handler(leagueId) {
+        if (leagueId && this.rosterId) {
+          this.bindRoster(leagueId, this.rosterId)
+          this.bindManager(leagueId, this.rosterId)
+        }
+      },
     },
-    activePlayers() {
-      return [] // todo: implement
-    },
-    totalScore() {
-      return 0 // todo: implement
-    },
-    totalProjection() {
-      return 0 // todo: implement
-    },
-    benchPlayers() {
-      return [] // todo: implement
-    },
-    benchScore() {
-      return 0
-    },
-    benchProjection() {
-      return 0
+    rosterId: {
+      immediate: true,
+      handler(rosterId) {
+        if (rosterId && this.leagueId) {
+          this.bindRoster(this.leagueId, rosterId)
+          this.bindManager(this.leagueId, rosterId)
+        }
+      },
     },
   },
 }

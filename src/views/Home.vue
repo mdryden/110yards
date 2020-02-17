@@ -4,7 +4,7 @@
       <section id="leagueOverview">
         <h1 class="brand">110 yards</h1>
         <h5 id="slogan" class="brand">{{ randomSlogan }}</h5>
-        <div v-if="leagues.length > 0">
+        <div v-if="hasLeagues">
           <hr />
           <h5>My Teams - Week {{ weekNumber }}</h5>
           <table class="table table-condensed">
@@ -28,7 +28,7 @@
             </tbody>
           </table>
         </div>
-        <h6 v-if="matchupsCount == 0">Join a league or create a new one!</h6>
+        <h6 v-if="!hasLeagues">Join a league or create a new one!</h6>
         <hr />
         <p>
           <router-link :to="{ name: 'join-league' }" class="btn btn-primary"
@@ -68,14 +68,14 @@ export default {
   },
   data() {
     return {
-      matchups: null,
-      matchupsCount: 0,
       leagues: [],
-      hasLeagues: false,
       leaguesUnsubscribe: null,
     }
   },
   computed: {
+    hasLeagues() {
+      return this.leagues.length > 0
+    },
     isAnonymous() {
       return this.$store.state.isAnonymous
     },

@@ -79,12 +79,6 @@ export const routes = [
     props: true,
   },
   {
-    path: "/league/:leagueId/roster",
-    name: "user-roster",
-    props: true, // todo: how to set roster id from current user id?
-    component: Roster,
-  },
-  {
     path: "/league/:leagueId/roster/:rosterId",
     name: "roster",
     props: true,
