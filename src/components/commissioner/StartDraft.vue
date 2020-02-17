@@ -7,12 +7,13 @@
     >
       Start Draft
     </button>
-    <router-link
+    <button
       v-if="canResumeDraft"
       class="btn btn-primary"
-      :to="{ name: 'draft', params: { leagueId: league.id } }"
-      >Resume Draft</router-link
+      v-on:click="goToDraft"
     >
+      Resume Draft
+    </button>
   </div>
 </template>
 
@@ -53,6 +54,9 @@ export default {
         this.league.id,
       )
 
+      this.goToDraft()
+    },
+    goToDraft() {
       this.$router.push({
         name: "draft",
         params: { leagueId: this.league.id },

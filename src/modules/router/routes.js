@@ -11,6 +11,7 @@ import Join from "../../views/league/Join.vue"
 import JoinDirect from "../../views/league/JoinDirect.vue"
 import Matchup from "../../views/league/roster/Matchup.vue"
 import Roster from "../../views/league/roster/Roster.vue"
+import Draft from "../../views/league/Draft.vue"
 
 import CommissionerIndex from "../../views/commissioner/Index.vue"
 
@@ -89,6 +90,12 @@ export const routes = [
     name: "league-players",
     props: true,
     component: Players,
+  },
+  {
+    path: "/league/:leagueId/draft",
+    name: "draft",
+    props: true,
+    component: Draft,
   },
   {
     path: "/commissioner/:leagueId",
