@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vue-cli-service build",
     "deploy-test": "firebase deploy --only hosting",
-    "format": "prettier --check src/**/*.js",
+    "format": "prettier --check src/**/*.{js,vue}",
     "predeploy-test": "yarn build --mode test",
     "serve": "vue-cli-service serve",
     "test": "jest --detectOpenHandles --testPathIgnorePatterns=.*/ui/.* --passWithNoTests",

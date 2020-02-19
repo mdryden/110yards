@@ -1,17 +1,25 @@
 <template>
   <section id="socialLogins">
-    <button @click="signInWithGoogle" class="btn btn-default btn-block btn-social btn-google">
+    <button
+      @click="signInWithGoogle"
+      class="btn btn-default btn-block btn-social btn-google"
+    >
       <i class="fab fa-google"></i>Continue with Google
     </button>
-    <button @click="signInWithFacebook" class="btn btn-default btn-block btn-social btn-facebook">
+    <button
+      @click="signInWithFacebook"
+      class="btn btn-default btn-block btn-social btn-facebook"
+    >
       <i class="fab fa-facebook"></i>Continue with Facebook
     </button>
-    <button @click="signInWithTwitter" class="btn btn-default btn-block btn-social btn-twitter">
+    <button
+      @click="signInWithTwitter"
+      class="btn btn-default btn-block btn-social btn-twitter"
+    >
       <i class="fab fa-twitter"></i>Continue with Twitter
     </button>
   </section>
 </template>
-
 
 <script>
 import firebase from "firebase/app"

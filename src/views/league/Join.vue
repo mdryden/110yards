@@ -44,7 +44,6 @@
   </div>
 </template>
 
-
 <script>
 import JoinPrivateForm from "../../components/league/JoinPrivateForm.vue"
 

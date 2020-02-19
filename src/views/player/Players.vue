@@ -10,10 +10,21 @@
             type="button"
             v-on:click="togglePositionFilter(position)"
             class="btn btn-sm position-toggle"
-            :class="{'btn-default': filterActive(position), 'btn-outline-default': !filterActive(position)}"
+            :class="{
+              'btn-default': filterActive(position),
+              'btn-outline-default': !filterActive(position),
+            }"
             :data-position="position"
-          >{{ position }}</button>
-          <button type="button" class="btn btn-default btn-sm" id="freeAgentsToggle">Free Agents</button>
+          >
+            {{ position }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-default btn-sm"
+            id="freeAgentsToggle"
+          >
+            Free Agents
+          </button>
         </div>
       </div>
 
@@ -101,14 +112,17 @@
           :key="player.id"
           v-show="visible(player)"
           class="player-row"
-          :class="[{
-          'free-agent': !player.owned,
-          'my-player': player.ownerId == uid,
-          },player.position]"
+          :class="[
+            {
+              'free-agent': !player.owned,
+              'my-player': player.ownerId == uid,
+            },
+            player.position,
+          ]"
         >
           <td>{{ player.last_name }}</td>
           <td>{{ player.first_name }}</td>
-          <td>{{ player.owned ? 'N' : 'Y' }}</td>
+          <td>{{ player.owned ? "N" : "Y" }}</td>
           <td>
             <!-- <partial name="PlayerActions" model="player" /> -->
           </td>
@@ -116,7 +130,7 @@
             <!--@Url.PlayerLink(player) @Html.PlayerStatus(player.InactiveType)-->
           </td>
           <td>{{ player.opponent }}</td>
-          <td>{{ player.position}}</td>
+          <td>{{ player.position }}</td>
           <td>{{ player.owner }}</td>
           <td>{{ player.games_played }}</td>
           <td>{{ player.rank }}</td>
@@ -171,53 +185,53 @@
 </template>
 
 <script>
-import { firestore } from "../../modules/firebase";
+import { firestore } from "../../modules/firebase"
 
 export default {
   name: "player-list",
   props: {
-    leagueId: null
+    leagueId: null,
   },
   data() {
     return {
       players: [],
       positions: ["QB", "RB", "WR"], //todo bind,
-      filterPositions: []
-    };
+      filterPositions: [],
+    }
   },
   computed: {
     uid() {
-      return this.$store.state.uid;
-    }
+      return this.$store.state.uid
+    },
   },
   methods: {
     visible(player) {
       let positionMatch =
         this.filterPositions.length == 0 ||
-        this.filterPositions.includes(player.position);
+        this.filterPositions.includes(player.position)
       // todo: free agent filtering
-      return positionMatch;
+      return positionMatch
     },
     togglePositionFilter(position) {
       if (this.filterPositions.includes(position)) {
-        this.filterPositions.pop(position);
+        this.filterPositions.pop(position)
       } else {
-        this.filterPositions.push(position);
+        this.filterPositions.push(position)
       }
     },
     filterActive(position) {
-      return this.filterPositions.includes(position);
-    }
+      return this.filterPositions.includes(position)
+    },
   },
   watch: {
     leagueId: {
       immediate: true,
       handler(leagueId) {
         // todo: use league id in binding
-        let ref = firestore.collection("player");
-        this.$bind("players", ref);
-      }
-    }
-  }
-};
+        let ref = firestore.collection("player")
+        this.$bind("players", ref)
+      },
+    },
+  },
+}
 </script>

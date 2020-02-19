@@ -20,8 +20,15 @@
           <label class="control-label">Make this league private?</label>
           <div class="form-check">
             <label class="checkbox-inline">
-              <input type="checkbox" v-model="isPrivate" class="form-check-input" />Yes
-              <small>(Private leagues are hidden from the listing, and require a password to join)</small>
+              <input
+                type="checkbox"
+                v-model="isPrivate"
+                class="form-check-input"
+              />Yes
+              <small
+                >(Private leagues are hidden from the listing, and require a
+                password to join)</small
+              >
             </label>
           </div>
         </div>

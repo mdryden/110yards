@@ -3,19 +3,34 @@
     <div class="col-md-6 registration-control">
       <!-- todo: apply rules - can't change if league is locked -->
       <div v-if="league.registration_closed">
-        <p>Registration for this league has been closed, so no other managers may join.</p>
-        <button class="btn btn-default" v-on:click="reopenRegistration()">Re-open registrations</button>
+        <p>
+          Registration for this league has been closed, so no other managers may
+          join.
+        </p>
+        <button class="btn btn-default" v-on:click="reopenRegistration()">
+          Re-open registrations
+        </button>
       </div>
       <div v-if="!league.is_full && !league.registration_closed">
-        <p>Registration for this league is open. To prevent new registrations, generate a schedule or click here:</p>
-        <button class="btn btn-default" v-on:click="closeRegistration()">Close registrations</button>
+        <p>
+          Registration for this league is open. To prevent new registrations,
+          generate a schedule or click here:
+        </p>
+        <button class="btn btn-default" v-on:click="closeRegistration()">
+          Close registrations
+        </button>
       </div>
     </div>
     <div class="col-md-6 invite-options">
       <h6>Invite managers by email:</h6>
       <div class="form-inline">
         <div class="form-group">
-          <input type="text" ref="invite-email" class="form-control" placeholder="Recipient email" />
+          <input
+            type="text"
+            ref="invite-email"
+            class="form-control"
+            placeholder="Recipient email"
+          />
           <button class="btn btn-primary" v-on:click="sendInvite()">
             <i class="fas fa-paper-plane"></i>
           </button>
@@ -24,7 +39,12 @@
       <h6>Or send this link:</h6>
       <div class="form-inline">
         <div class="form-group">
-          <input type="text" class="form-control" v-model="joinLink" id="join-link" />
+          <input
+            type="text"
+            class="form-control"
+            v-model="joinLink"
+            id="join-link"
+          />
           <button class="btn btn-primary" v-on:click="copyJoinLink()">
             <i class="fas fa-copy"></i>
           </button>
@@ -41,7 +61,9 @@ import { firestore } from "../../modules/firebase"
 
 export default {
   name: "registration",
-  props: ["league"],
+  props: {
+    league: Object,
+  },
   data() {
     return {
       privateConfig: null,
@@ -107,7 +129,6 @@ export default {
   },
 }
 </script>
-
 
 <style scoped>
 .registration-control {
