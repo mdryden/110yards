@@ -1,7 +1,7 @@
 <template>
   <table v-if="rostersConfig" class="lineup table table-condensed">
     <thead>
-      <tr>
+      <tr v-if="includeScore">
         <th :colspan="includeProjection ? 5 : 4" class="text-right">
           {{ playedCount }} / {{ activeRosterSpotsCount }} played
         </th>
@@ -21,7 +21,7 @@
       :spot="spot"
       :player="getPlayerInSpot(spot)"
     />
-    <tr>
+    <tr v-if="includeScore">
       <th>Total</th>
       <th></th>
       <th></th>
@@ -45,7 +45,7 @@
       :spot="spot"
       :player="getPlayerInSpot(spot)"
     />
-    <tr>
+    <tr v-if="includeScore">
       <th>Bench</th>
       <th></th>
       <th></th>
@@ -70,6 +70,7 @@ export default {
     roster: Object,
     leagueId: String,
     includeProjection: Boolean,
+    includeScore: Boolean,
   },
   data() {
     return {

@@ -41,3 +41,7 @@ export const generateSchedule = async (user, leagueId, options) => {
 export const beginDraft = async (user, leagueId) => {
   return client.post(user, `/league/${leagueId}/draft`)
 }
+
+export const updateDraftOrder = async (user, leagueId, order) => {
+  return client.put(user, `/league/${leagueId}/draftOrder`, order)
+}

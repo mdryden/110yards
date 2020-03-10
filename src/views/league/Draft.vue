@@ -2,7 +2,7 @@
   <div class="draft">
     <div class="row">
       <div
-        class="col-sm"
+        class="col-sm-6 col-md-3"
         v-for="draftRoster in draftRosters"
         :key="draftRoster.id"
       >

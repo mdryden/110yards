@@ -25,7 +25,7 @@ instance.interceptors.response.use(
       return
     }
 
-    if (error.response.status == 500) {
+    if (error.response.status >= 400) {
       eventBus.$emit("exception", error)
       return
     }
