@@ -14,13 +14,13 @@
     }
   },
   // Uncomment the next line if you want to publish any ports.
-  "appPort": ["8080:8080"],
+  "appPort": [
+    "8080:8080"
+  ],
   "postCreateCommand": "yarn install",
-
   // You must create the network prior to starting the container:
   // docker network create 110yards
-  "runArgs": ["--network", "110yards"],
-
+  // "runArgs": ["--network", "110yards"],
   "extensions": [
     "ms-vscode.vscode-typescript-tslint-plugin",
     "octref.vetur",

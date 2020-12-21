@@ -1,5 +1,5 @@
 <template>
-  <tr class="matchup">
+  <tr v-if="matchup" class="matchup">
     <td class="roster roster-away">
       <div v-if="matchup.away">
         <router-link
