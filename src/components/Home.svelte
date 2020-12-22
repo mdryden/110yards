@@ -12,16 +12,16 @@
           <hr />
           <h5>My Teams - Week { weekNumber }</h5>
           <table class="table table-condensed">
-            <tbody v-for="league in leagues" :key="league.leagueId">
+            <tbody v-for="league in leagues" >
               <tr>
                 <td colspan="5" class="league-heading">
-                  <router-link
+                  <!-- <router-link
                     :to="{
                       name: 'league',
                       params: { leagueId: league.leagueId },
                     }"
                     >{ league.leagueName }</router-link
-                  >
+                  > -->
                 </td>
               </tr>
               <matchup-preview
@@ -36,12 +36,12 @@
         <h6 v-if="!hasLeagues">Join a league or create a new one!</h6>
         <hr />
         <p>
-          <router-link :to="{ name: 'join-league' }" class="btn btn-primary"
+          <!-- <router-link :to="{ name: 'join-league' }" class="btn btn-primary"
             >Join a league</router-link
           >&nbsp;or
           <router-link :to="{ name: 'create-league' }" class="btn btn-default"
             >Create a league</router-link
-          >
+          > -->
         </p>
         <small v-if="isAnonymous">
           Already have a league?
@@ -53,4 +53,4 @@
     <div class="col-md-4 hidden-sm hidden-xs">
       <!-- @*@Html.Partial("CflScoreboard")*@ -->
     </div>
-  </div>
+</div>
