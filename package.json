@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public",
+    "start": "sirv public -s",
     "deploy-test": "firebase deploy --only hosting",
     "format": "prettier --check src/**/*.{js,svelte}",
     "predeploy-test": "yarn build --mode test",
@@ -23,6 +23,7 @@
     "@rollup/plugin-typescript": "^8.1.0",
     "@tsconfig/svelte": "^1.0.10",
     "@types/page": "^1.11.0",
+    "express": "^4.17.1",
     "jest": "^24.9.0",
     "jest-environment-webdriver": "^0.2.0",
     "page": "^1.11.6",
