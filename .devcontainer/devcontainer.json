@@ -16,7 +16,6 @@
       "editor.defaultFormatter": "svelte.svelte-vscode"
     }
   },
-  // Uncomment the next line if you want to publish any ports.
   "appPort": ["5000:5000"],
   "postCreateCommand": "yarn install",
   // You must create the network prior to starting the container:
