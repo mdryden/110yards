@@ -1,13 +1,13 @@
-import Home from "../../views/Home"
+import Home from "../../views/Home.vue"
 // import DefaultError from "../../views/error/Default.vue"
 // import NotAuthorized from "../../views/error/NotAuthorized.vue"
 
-// import Login from "../../components/auth/Login.vue"
-// import Register from "../../components/auth/Register.vue"
+import Login from "../../components/auth/Login.vue"
+import Register from "../../components/auth/Register.vue"
 
-// import CreateLeague from "../../views/league/Create.vue"
+import CreateLeague from "../../views/league/Create.vue"
 // import LeagueIndex from "../../views/league/Index.vue"
-// import Join from "../../views/league/Join.vue"
+import Join from "../../views/league/Join.vue"
 // import JoinDirect from "../../views/league/JoinDirect.vue"
 // import Matchup from "../../views/league/roster/Matchup.vue"
 // import Roster from "../../views/league/roster/Roster.vue"
@@ -36,31 +36,31 @@ export const routes = [
   //     component: NotAuthorized,
   //     meta: { anonymous: true },
   //   },
-  //   {
-  //     path: "/login",
-  //     name: "login",
-  //     props: route => ({
-  //       returnUrl: route.query.returnUrl,
-  //     }),
-  //     component: Login,
-  //     meta: { anonymous: true },
-  //   },
-  //   {
-  //     path: "/signup",
-  //     name: "signup",
-  //     component: Register,
-  //     meta: { anonymous: true },
-  //   },
-  //   {
-  //     path: "/league/create",
-  //     name: "create-league",
-  //     component: CreateLeague,
-  //   },
-  //   {
-  //     path: "/join",
-  //     name: "join-league",
-  //     component: Join,
-  //   },
+  {
+    path: "/login",
+    name: "login",
+    props: route => ({
+      returnUrl: route.query.returnUrl,
+    }),
+    component: Login,
+    meta: { anonymous: true },
+  },
+  {
+    path: "/signup",
+    name: "signup",
+    component: Register,
+    meta: { anonymous: true },
+  },
+  {
+    path: "/league/create",
+    name: "create-league",
+    component: CreateLeague,
+  },
+  {
+    path: "/join",
+    name: "join-league",
+    component: Join,
+  },
   //   {
   //     path: "/join/:joinId",
   //     name: "join-direct",

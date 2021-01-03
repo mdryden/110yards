@@ -4,7 +4,7 @@
       <router-link to="/" class="navbar-item">
         <img
           class="logo-small"
-          src="/assets/img/football-white.png"
+          src="@/assets/img/football-white.png"
           alt="110 yards"
         />
         <label class="is-sr-only">Home</label>
