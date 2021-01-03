@@ -1,78 +1,79 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark">
-    <button
-      type="button"
-      class="navbar-toggler"
-      data-toggle="collapse"
-      data-target="#navbar-left"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <router-link to="/" class="navbar-brand">
-      <img
-        class="logo-small"
-        src="/assets/img/football-white.png"
-        alt="110 yards"
-      />
-      <label class="sr-only">Home</label>
-    </router-link>
-    <div
-      id="navbar-left"
-      class="navbar-collapse collapse"
-      :class="visible ? 'show' : null"
-      @click="visible = !visible"
-    >
-      <div class="nav navbar-nav">
-        <router-link
-          v-if="leagueId"
-          class="nav-item nav-link"
-          :to="{ name: 'league', params: { leagueId: leagueId } }"
-          >League</router-link
-        >
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <router-link to="/" class="navbar-item">
+        <img
+          class="logo-small"
+          src="/assets/img/football-white.png"
+          alt="110 yards"
+        />
+        <label class="is-sr-only">Home</label>
+      </router-link>
 
-        <router-link
-          v-if="leagueId && userId"
-          class="nav-item nav-link"
-          :to="{
-            name: 'roster',
-            params: { leagueId: leagueId, rosterId: userId },
-          }"
-          >My Team</router-link
-        >
-
-        <router-link
-          v-if="leagueId"
-          class="nav-item nav-link"
-          :to="{ name: 'league-players', params: { leagueId: leagueId } }"
-          >Players</router-link
-        >
-
-        <router-link class="nav-item nav-link" to="/faq">FAQ</router-link>
-
-        <router-link v-if="isAdmin" class="nav-item nav-link" to="/admin"
-          >Admin</router-link
-        >
-      </div>
-      <div class="nav navbar-nav ml-auto">
-        <router-link
-          id="login"
-          v-if="isAnonymous"
-          class="nav-item nav-link"
-          to="/login"
-          >Log in</router-link
-        >
-        <!-- <span class="nav-item navbar-text">{{username}}</span> -->
-        <a
-          id="logout"
-          v-if="!isAnonymous"
-          class="nav-item nav-link"
-          href="#"
-          @click="logOut"
-          >Log out</a
-        >
-      </div>
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="site-navbar"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <!-- </div> -->
+    <div id="site-navbar" class="navbar-menu">
+      <router-link
+        v-if="leagueId"
+        class="navbar-item"
+        :to="{ name: 'league', params: { leagueId: leagueId } }"
+      >
+        League
+      </router-link>
+
+      <router-link
+        v-if="leagueId && userId"
+        class="navbar-item"
+        :to="{
+          name: 'roster',
+          params: { leagueId: leagueId, rosterId: userId },
+        }"
+      >
+        My Team
+      </router-link>
+
+      <router-link
+        v-if="leagueId"
+        class="navbar-item"
+        :to="{ name: 'league-players', params: { leagueId: leagueId } }"
+      >
+        Players
+      </router-link>
+
+      <router-link class="navbar-item" to="/faq">FAQ</router-link>
+
+      <router-link v-if="isAdmin" class="navbar-item" to="/admin">
+        Admin
+      </router-link>
+      <router-link
+        id="login"
+        v-if="isAnonymous"
+        class="navbar-item"
+        to="/login"
+      >
+        Log in
+      </router-link>
+      <!-- <span class="nav-item navbar-text">{{username}}</span> -->
+      <a
+        id="logout"
+        v-if="!isAnonymous"
+        class="navbar-item"
+        href="#"
+        @click="logOut"
+      >
+        Log out
+      </a>
+    </div>
   </nav>
 </template>
 
