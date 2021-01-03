@@ -11,12 +11,16 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "[javascript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/.hg/store/**": true
     }
   },
   // Uncomment the next line if you want to publish any ports.
-  "appPort": [
-    "8080:8080"
-  ],
+  "appPort": ["8080:8080"],
   "postCreateCommand": "yarn install",
   // You must create the network prior to starting the container:
   // docker network create 110yards

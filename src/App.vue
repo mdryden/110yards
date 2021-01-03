@@ -3,7 +3,7 @@
     <nav-bar />
     <div class="container" id="body" :data-version="version">
       <router-view />
-      <throbber />
+      <!-- <throbber /> -->
       <div id="footer">
         <p>&copy; 2020 Michael Dryden</p>
         <p :title="'Version ' + version">Last release {{ lastUpdated }}</p>
@@ -25,21 +25,20 @@
 
 <script>
 import NavBar from "./components/NavBar"
-import Throbber from "./components/Throbber"
-import moment from "moment"
+// import Throbber from "./components/Throbber";
 
 export default {
   name: "app",
   components: {
     NavBar,
-    Throbber,
+    // Throbber,
   },
   computed: {
     version() {
       return process.env.VUE_APP_VERSION || "0000000"
     },
     lastUpdated() {
-      return moment(this.getLastUpdated()).fromNow()
+      return "a while ago"
     },
   },
   methods: {

@@ -11,7 +11,7 @@
     <router-link to="/" class="navbar-brand">
       <img
         class="logo-small"
-        src="@/assets/img/football-white.png"
+        src="/assets/img/football-white.png"
         alt="110 yards"
       />
       <label class="sr-only">Home</label>

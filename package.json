@@ -1,47 +1,53 @@
 {
-  "name": "web",
+  "name": "110-yards-web",
   "version": "0.1.0",
   "private": true,
-  "license": "",
   "scripts": {
-    "build": "vue-cli-service build",
-    "deploy-test": "firebase deploy --only hosting",
-    "format": "prettier --check src/**/*.{js,vue}",
-    "predeploy-test": "yarn build --mode test",
     "serve": "vue-cli-service serve",
-    "test": "jest --detectOpenHandles --testPathIgnorePatterns=.*/ui/.* --passWithNoTests",
-    "testAll": "jest --detectOpenHandles",
-    "ui-test": "jest --detectOpenHandles --testPathPatterns=.*/ui/.*"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
-    "core-js": "^3.3.2",
-    "datatables.net-bs4": "^1.10.20",
-    "firebase": "^7.3.0",
-    "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "popper.js": "^1.16.0",
-    "request": "^2.88.0",
-    "vue": "^2.6.10",
-    "vue-loading-overlay": "^3.2.0",
-    "vue-router": "^3.1.3",
-    "vuedraggable": "^2.23.2",
-    "vuefire": "^2.2.0",
-    "vuex": "^3.0.1",
-    "vuexfire": "^3.2.0"
+    "@firebase/app": "^0.6.13",
+    "@firebase/auth": "^0.16.1",
+    "@firebase/firestore": "^2.1.1",
+    "bulma": "^0.9.1",
+    "core-js": "^3.6.5",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "vue": "^3.0.0",
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-router": "^4.0.0",
-    "@vue/cli-plugin-vuex": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "fs": "^0.0.1-security",
-    "jest": "^24.9.0",
-    "jest-environment-webdriver": "^0.2.0",
-    "prettier": "^1.19.1",
-    "selenium-webdriver": "^4.0.0-alpha.5",
-    "vue-template-compiler": "^2.6.10"
-  }
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "prettier": "^1.19.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
