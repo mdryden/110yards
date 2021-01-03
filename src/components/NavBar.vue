@@ -91,8 +91,9 @@
   margin-top: -8px;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-  color: #cccccc;
+a.navbar-item:hover {
+  color: white;
+  background-color: inherit;
 }
 </style>
 
