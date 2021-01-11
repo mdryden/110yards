@@ -1,21 +1,11 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.154.2/containers/javascript-node/.devcontainer/base.Dockerfile
 
-FROM node:12
+# [Choice] Node.js version: 14, 12, 10
+ARG VARIANT="12-buster"
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
-# Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
-# The node image comes with a base non-root 'node' user which this Dockerfile
-# gives sudo access. However, for Linux, this user's GID/UID must match your local
-# user UID/GID to avoid permission issues with bind mounts. Update USER_UID / USER_GID 
-# if yours is not 1000. See https://aka.ms/vscode-remote/containers/non-root-user.
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-# Configure apt and install packages
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \ 
     #
@@ -35,27 +25,12 @@ RUN apt-get update \
     && curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update \
-    && apt-get -y install --no-install-recommends yarn google-cloud-sdk google-chrome-stable default-jdk firefox-esr \
-    #
-    # Install tslint and typescript globally
-    && npm install -g tslint typescript \
-    #
-    # [Optional] Update a non-root user to match UID/GID - see https://aka.ms/vscode-remote/containers/non-root-user.
-    && if [ "$USER_GID" != "1000" ]; then groupmod node --gid $USER_GID; fi \
-    && if [ "$USER_UID" != "1000" ]; then usermod --uid $USER_UID node; fi \
-    # [Optional] Add add sudo support for non-root user
-    && apt-get install -y sudo \
-    && echo node ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/node \
-    && chmod 0440 /etc/sudoers.d/node \
-    #
-    # Clean up
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get -y install --no-install-recommends yarn google-cloud-sdk google-chrome-stable default-jdk firefox-esr
 
-RUN npm install --global @vue/cli
 
-RUN npm install --global firebase-tools
+RUN yarn global add @vue/cli
+
+RUN yarn global add firebase-tools
 
 RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip \
     && unzip chromedriver_linux64 -d /usr/bin \
@@ -66,8 +41,10 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckod
     && mv geckodriver /usr/bin \
     && chmod +x /usr/bin/geckodriver
 
-RUN firebase setup:emulators:firestore
-
-
-# Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
+# [Optional] Uncomment if you want to install an additional version of node using nvm
+# ARG EXTRA_NODE_VERSION=10
+# RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"
+
+# [Optional] Uncomment if you want to install more global node modules
+# RUN su node -c "npm install -g <your-package-list-here>"
