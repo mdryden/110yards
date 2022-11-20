@@ -1,0 +1,16 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: "functions deploy game-importer"
+    args:
+      [
+        "functions",
+        "deploy",
+        "game-importer",
+        "--project=$_TARGET_PROJECT_ID",
+        "--gen2",
+        "--trigger-topic=topic_import_games",
+        "--runtime=go119",
+        "--update-env-vars=GCLOUD_PROJECT=$_TARGET_PROJECT_ID",
+        "--update-secrets=CFL_API_KEY=CFL_API_KEY:latest",
+        "--region=us-central1",
+      ]
