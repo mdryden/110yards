@@ -5,6 +5,7 @@
     </v-row> -->
     <v-row>
       <v-col cols="12" md="8">
+        <focus-game class="d-md-none" />
         <v-card>
           <v-card-title class="text-h4">110 yards</v-card-title>
           <v-card-subtitle class="subtitle"> {{ randomSlogan }}</v-card-subtitle>
@@ -82,6 +83,7 @@ import AppPrimaryButton from "../components/buttons/AppPrimaryButton.vue"
 import AppDefaultButton from "../components/buttons/AppDefaultButton.vue"
 import Scoreboard from "../components/common/Scoreboard.vue"
 import ArchiveLeagues from "./league/ArchiveLeagues.vue"
+import FocusGame from "../components/common/FocusGame.vue"
 
 export default {
   name: "home",
@@ -91,6 +93,7 @@ export default {
     AppDefaultButton,
     Scoreboard,
     ArchiveLeagues,
+    FocusGame,
   },
   data() {
     return {
@@ -125,20 +128,6 @@ export default {
     weekNumber() {
       return this.$root.state.current_week
     },
-    // nextGame() {
-    //   if (!this.scoreboard || !this.scoreboard.games) {
-    //     return null
-    //   }
-
-    //   for (let game of Object.values(this.scoreboard.games)) {
-    //     let startDate = game.date_start.toDate()
-    //     if (startDate > new Date() || game.event_status == eventStatus.InProgress) {
-    //       return game
-    //     }
-    //   }
-
-    //   return null
-    // },
   },
   methods: {
     bind(uid) {

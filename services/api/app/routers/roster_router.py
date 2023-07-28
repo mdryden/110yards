@@ -1,35 +1,21 @@
-from services.api.app.core.auth import get_current_user_id, require_role
-from services.api.app.core.role import Role
-from services.api.app.domain.commands.roster.add_player import (
-    AddPlayerCommand, AddPlayerCommandExecutor,
-    create_add_player_command_executor)
-from services.api.app.domain.commands.roster.ban_name_changes import (
-    SetNameChangeBanCommand, SetNameChangeBanCommandExecutor,
-    create_set_name_change_ban_command_executor)
-from services.api.app.domain.commands.roster.cancel_bid import (
-    CancelBidCommand, CancelBidCommandExecutor,
-    create_cancel_bid_command_executor)
-from services.api.app.domain.commands.roster.drop_player import (
-    DropPlayerCommand, DropPlayerCommandExecutor,
-    create_drop_player_command_executor)
-from services.api.app.domain.commands.roster.move_player import (
-    MovePlayerCommand, MovePlayerCommandExecutor,
-    create_move_player_command_executor)
-from services.api.app.domain.commands.roster.transfer_ownership import (
-    TransferOwnershipCommand, TransferOwnershipCommandExecutor,
-    create_transfer_ownership_command_executor)
-from services.api.app.domain.commands.roster.update_roster_name import (
-    UpdateRosterNameCommand, UpdateRosterNameCommandExecutor,
-    create_update_roster_name_command_executor)
-from services.api.app.domain.commands.roster.update_waiver_budget import (
-    UpdateWaiverBudgetCommand,
-    UpdateWaiverBudgetCommandExecutor,
-    create_update_waiver_budget_command_executor
-)
-from services.api.app.domain.services.roster_progress_service import (
-    ProgressRequest, ProgressService, create_roster_progress_service)
 from fastapi import Depends, Request
 
+from app.core.auth import get_current_user_id, require_role
+from app.core.role import Role
+from app.domain.commands.roster.add_player import AddPlayerCommand, AddPlayerCommandExecutor, create_add_player_command_executor
+from app.domain.commands.roster.ban_name_changes import SetNameChangeBanCommand, SetNameChangeBanCommandExecutor, create_set_name_change_ban_command_executor
+from app.domain.commands.roster.cancel_bid import CancelBidCommand, CancelBidCommandExecutor, create_cancel_bid_command_executor
+from app.domain.commands.roster.drop_player import DropPlayerCommand, DropPlayerCommandExecutor, create_drop_player_command_executor
+from app.domain.commands.roster.move_player import MovePlayerCommand, MovePlayerCommandExecutor, create_move_player_command_executor
+from app.domain.commands.roster.update_roster_name import UpdateRosterNameCommand, UpdateRosterNameCommandExecutor, create_update_roster_name_command_executor
+from app.domain.commands.roster.update_waiver_budget import (
+    UpdateWaiverBudgetCommand,
+    UpdateWaiverBudgetCommandExecutor,
+    create_update_waiver_budget_command_executor,
+)
+from app.domain.services.roster_progress_service import ProgressRequest, ProgressService, create_roster_progress_service
+
+from ..domain.commands.roster.transfer_ownership import TransferOwnershipCommand, TransferOwnershipCommandExecutor, create_transfer_ownership_command_executor
 from .api_router import APIRouter
 
 router = APIRouter(prefix="/roster")
@@ -39,17 +25,14 @@ router = APIRouter(prefix="/roster")
 async def update_roster_name(
     command: UpdateRosterNameCommand,
     current_user_id: str = Depends(get_current_user_id),
-    cmd_ex: UpdateRosterNameCommandExecutor = Depends(create_update_roster_name_command_executor)
+    cmd_ex: UpdateRosterNameCommandExecutor = Depends(create_update_roster_name_command_executor),
 ):
     command.current_user_id = current_user_id
     return cmd_ex.execute(command)
 
 
 @router.put("/name_change_ban")
-async def set_name_change_ban(
-    command: SetNameChangeBanCommand,
-    cmd_ex: SetNameChangeBanCommandExecutor = Depends(create_set_name_change_ban_command_executor)
-):
+async def set_name_change_ban(command: SetNameChangeBanCommand, cmd_ex: SetNameChangeBanCommandExecutor = Depends(create_set_name_change_ban_command_executor)):
     return cmd_ex.execute(command)
 
 

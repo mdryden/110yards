@@ -1,20 +1,18 @@
-
-
-from services.api.app.domain.repositories.league_transaction_repository import LeagueTransactionRepository
-from services.api.app.domain.repositories.league_week_matchup_repository import LeagueWeekMatchupRepository
-from yards_py.domain.entities.user_league_preview import UserLeaguePreview
-from yards_py.domain.entities.schedule import Matchup, MatchupType, PlayoffType, Schedule, ScheduleWeek, WeekType
-from yards_py.domain.entities.roster import Roster
-from services.api.app.domain.enums.draft_state import DraftState
-from yards_py.domain.entities.league import League
-from services.api.app.domain.commands.roster.update_roster_name import UpdateRosterNameCommand, UpdateRosterNameCommandExecutor
-from services.api.app.domain.repositories.league_roster_repository import LeagueRosterRepository
-from services.api.app.domain.repositories.league_config_repository import LeagueConfigRepository
-from services.api.app.domain.repositories.user_league_repository import UserLeagueRepository
-from services.api.app.domain.repositories.league_repository import LeagueRepository
-from api.tests.asserts import are_equal
-from api.tests.mocks.mock_firestore_proxy import MockFirestoreProxy
-from yards_py.core.publisher import VirtualPubSubPublisher
+from app.core.publisher import VirtualPubSubPublisher
+from app.domain.commands.roster.update_roster_name import UpdateRosterNameCommand, UpdateRosterNameCommandExecutor
+from app.domain.entities.league import League
+from app.domain.entities.roster import Roster
+from app.domain.entities.schedule import Matchup, MatchupType, PlayoffType, Schedule, ScheduleWeek, WeekType
+from app.domain.entities.user_league_preview import UserLeaguePreview
+from app.domain.enums.draft_state import DraftState
+from app.domain.repositories.league_config_repository import LeagueConfigRepository
+from app.domain.repositories.league_repository import LeagueRepository
+from app.domain.repositories.league_roster_repository import LeagueRosterRepository
+from app.domain.repositories.league_transaction_repository import LeagueTransactionRepository
+from app.domain.repositories.league_week_matchup_repository import LeagueWeekMatchupRepository
+from app.domain.repositories.user_league_repository import UserLeagueRepository
+from tests.asserts import are_equal
+from tests.mocks.mock_firestore_proxy import MockFirestoreProxy
 
 
 def get_league_repo(league) -> LeagueRepository:
@@ -56,17 +54,15 @@ def get_publisher() -> VirtualPubSubPublisher:
 
 def create_mock_schedule(week_number) -> Schedule:
     return Schedule(
-        weeks=[
-            ScheduleWeek(week_number=week_number, week_type=WeekType.REGULAR)
-        ],
+        weeks=[ScheduleWeek(week_number=week_number, week_type=WeekType.REGULAR)],
         playoff_type=PlayoffType.TOP_2,
         enable_loser_playoff=False,
-        first_playoff_week=2
+        first_playoff_week=2,
     )
 
 
 def test_update_roster_name():
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 
@@ -101,7 +97,7 @@ def test_update_roster_name():
 def test_update_roster_name_updates_schedule_config_away():
     week_number = 1
 
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", schedule_generated=True, commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", schedule_generated=True, commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
     schedule = create_mock_schedule(week_number)
@@ -144,7 +140,7 @@ def test_update_roster_name_updates_schedule_config_away():
 def test_update_roster_name_updates_schedule_config_home():
     week_number = 1
 
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", schedule_generated=True, commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", schedule_generated=True, commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
     schedule = create_mock_schedule(week_number)
@@ -185,7 +181,7 @@ def test_update_roster_name_updates_schedule_config_home():
 
 
 def test_update_roster_name_updates_user_leagues_home():
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 
@@ -218,7 +214,7 @@ def test_update_roster_name_updates_user_leagues_home():
 
 
 def test_update_another_user_should_fail():
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 
@@ -246,7 +242,7 @@ def test_update_another_user_should_fail():
 
 
 def test_cannot_change_while_drafting():
-    league = League.construct(id="league1", draft_state=DraftState.IN_PROGRESS, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.IN_PROGRESS, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 
@@ -274,7 +270,7 @@ def test_cannot_change_while_drafting():
 
 
 def test_update_by_commisssioner():
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 
@@ -306,7 +302,7 @@ def test_update_by_commisssioner():
 
 
 def test_update_by_other_user():
-    league = League.construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
+    league = League.model_construct(id="league1", draft_state=DraftState.NOT_STARTED, name="Test League", commissioner_id="commish")
     roster = Roster(id="roster1", name="Mock Roster")
     user_league = UserLeaguePreview.create(roster, league)
 

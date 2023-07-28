@@ -1,7 +1,5 @@
-
-
 from firebase_admin import auth
-from pydantic.main import BaseModel
+from pydantic import BaseModel
 
 
 def create_user_existence_service():
@@ -12,7 +10,7 @@ class UserExistenceRequest(BaseModel):
     email: str
 
 
-class UserExistenceService():
+class UserExistenceService:
     def __init__(self):
         pass
 

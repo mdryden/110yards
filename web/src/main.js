@@ -16,10 +16,11 @@ import "./assets/css/team-flair.css"
 import vuetify from "./plugins/vuetify"
 import appConfig from "./plugins/appConfig"
 import rosterPositions from "./mixins/rosterPositions"
-import opponents from "./mixins/opponents"
 import state from "./mixins/state"
 import league from "./mixins/league"
 import teamGames from "./mixins/teamGames"
+import scoreboard from "./mixins/scoreboard"
+import modTools from "./mixins/modTools"
 
 Vue.config.productionTip = false
 
@@ -34,5 +35,5 @@ new Vue({
   store,
   vuetify,
   render: h => h(App),
-  mixins: [switches, rosterPositions, opponents, state, league, teamGames],
+  mixins: [switches, rosterPositions, state, league, teamGames, scoreboard, modTools],
 }).$mount("#app")

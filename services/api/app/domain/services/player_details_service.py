@@ -1,28 +1,19 @@
-
-
 from typing import List, Optional
 
 from fastapi import Depends
 from pydantic import BaseModel
-from yards_py.domain.entities.player import Player
-from yards_py.domain.entities.player_league_season_score import \
-    PlayerLeagueSeasonScore
-from yards_py.domain.entities.player_score import PlayerScore
-from yards_py.domain.entities.scoreboard import ScoreboardGame
-from yards_py.domain.entities.stats import Stats
-from yards_py.domain.entities.team import Team
 
-from services.api.app.domain.repositories.game_repository import (
-    GameRepository, create_game_repository)
-from services.api.app.domain.repositories.player_game_repository import (
-    PlayerGameRepository, create_player_game_repository)
-from services.api.app.domain.repositories.player_league_season_score_repository import (
-    PlayerLeagueSeasonScoreRepository,
-    create_player_league_season_score_repository)
-from services.api.app.domain.repositories.player_repository import (
-    PlayerRepository, create_player_repository)
-from services.api.app.domain.repositories.player_season_repository import (
-    PlayerSeasonRepository, create_player_season_repository)
+from app.domain.entities.player import Player
+from app.domain.entities.player_league_season_score import PlayerLeagueSeasonScore
+from app.domain.entities.player_score import PlayerScore
+from app.domain.entities.scoreboard import ScoreboardGame
+from app.domain.entities.stats import Stats
+from app.domain.entities.team import Team
+from app.domain.repositories.game_repository import GameRepository, create_game_repository
+from app.domain.repositories.player_game_repository import PlayerGameRepository, create_player_game_repository
+from app.domain.repositories.player_league_season_score_repository import PlayerLeagueSeasonScoreRepository, create_player_league_season_score_repository
+from app.domain.repositories.player_repository import PlayerRepository, create_player_repository
+from app.domain.repositories.player_season_repository import PlayerSeasonRepository, create_player_season_repository
 
 
 class GameLog(BaseModel):
@@ -39,8 +30,8 @@ class GameLog(BaseModel):
 
 class PlayerDetails(BaseModel):
     player: Player
-    season_stats: Optional[Stats]
-    season_score: Optional[PlayerLeagueSeasonScore]
+    season_stats: Optional[Stats] = None
+    season_score: Optional[PlayerLeagueSeasonScore] = None
     game_log: List[GameLog] = []
 
 
@@ -76,7 +67,7 @@ class PlayerDetailsService:
         self.player_season_repo = player_season_repo
 
     def get_player_details(self, season: int, league_id: str, player_id: str) -> Optional[PlayerDetails]:
-        player = self.player_repo.get(season, player_id)
+        player = self.player_repo.get(player_id)
 
         if not player:
             return None

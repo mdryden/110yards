@@ -1,0 +1,37 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: 110yards
+
+deploy:
+  statusCheckDeadlineSeconds: 300
+  tolerateFailuresUntilDeadline: true
+
+portForward:
+  - resourceType: deployment
+    resourceName: api
+    port: 3000
+    localPort: 8000
+
+  - resourceType: deployment
+    resourceName: importer
+    port: 3000
+    localPort: 3001
+
+build:
+  artifacts:
+    - image: api
+      context: services/api
+      docker:
+        dockerfile: Dockerfile.dev
+
+    - image: importer
+      context: services/importer
+      docker:
+        dockerfile: Dockerfile.dev
+
+manifests:
+  rawYaml:
+    - env.yaml
+    - k8s/api.yaml
+    - k8s/importer.yaml

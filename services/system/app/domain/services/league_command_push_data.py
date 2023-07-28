@@ -1,6 +1,7 @@
 from typing import Dict
+
+from app.domain.enums.league_command_type import LeagueCommandType
 from pydantic import BaseModel
-from yards_py.domain.enums.league_command_type import LeagueCommandType
 
 
 class LeagueCommandPushData(BaseModel):

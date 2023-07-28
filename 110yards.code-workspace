@@ -1,0 +1,20 @@
+{
+    "folders": [
+        {
+            "name": "root",
+            "path": "."
+        },
+        {
+            "path": "services/api",
+            "name": "api"
+        },
+        {
+            "path": "services/importer",
+            "name": "importer"
+        },
+        {
+            "path": "services/system",
+            "name": "system"
+        },
+    ]
+}

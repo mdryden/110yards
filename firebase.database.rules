@@ -1,5 +1,16 @@
 {
     "rules": {
-       
+        "player_lists": {
+            ".read": "auth != null",
+            ".write": false
+        },
+        "schedules": {
+            ".read": true,
+            ".write": false
+        },
+        "boxscores": {
+            ".read": "auth != null",
+            ".write": false
+        },
     }
 }

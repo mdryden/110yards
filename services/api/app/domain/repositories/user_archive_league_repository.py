@@ -1,8 +1,10 @@
-from google.cloud.firestore_v1.transaction import Transaction
-from services.api.app.domain.repositories.user_repository import UserRepository
-from yards_py.domain.entities.user_league_preview import UserLeaguePreview
 from typing import Dict, List
-from yards_py.core.firestore_proxy import FirestoreProxy
+
+from google.cloud.firestore_v1.transaction import Transaction
+
+from app.core.firestore_proxy import FirestoreProxy
+from app.domain.entities.user_league_preview import UserLeaguePreview
+from app.domain.repositories.user_repository import UserRepository
 
 
 def create_user_archive_league_repository():
@@ -11,7 +13,6 @@ def create_user_archive_league_repository():
 
 
 class UserArchiveLeagueRepository:
-
     def __init__(self, firestore: FirestoreProxy[UserLeaguePreview]):
         self.client = firestore
 

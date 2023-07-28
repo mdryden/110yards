@@ -69,7 +69,7 @@
           <template v-slot:[`item.actions`]="{ item }">
             <div v-if="showActions">
               <v-icon v-if="isAvailable(item) && !isLocked(item)" @click="addPlayer(item)">mdi-plus</v-icon>
-              <locked v-if="isAvailable(item) && isLocked(item)" />
+              <locked v-if="isLocked(item)" />
 
               <!-- auction draft -->
               <v-btn
@@ -109,7 +109,12 @@
           </template>
 
           <template v-slot:[`item.owner`]="{ item }">
-            <league-roster-link v-if="isOwned(item)" :leagueId="leagueId" :roster="getOwner(item.id)" :trim="true" />
+            <league-roster-link
+              v-if="isOwned(item)"
+              :leagueId="leagueId"
+              :roster="getOwner(item.player_id)"
+              :trim="true"
+            />
           </template>
         </v-data-table>
       </v-card-text>
@@ -242,7 +247,7 @@ export default {
       players = players.filter(player => visiblePlayerPositions.includes(player.position))
 
       if (this.search) {
-        players = players.filter(player => player.display_name.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+        players = players.filter(player => player.full_name.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
       }
 
       if (this.filterPositions.length > 0) {
@@ -311,7 +316,7 @@ export default {
     },
 
     playerOwners() {
-      return this.ownedPlayers.reduce((players, player) => ((players[player.id] = player), players), {})
+      return this.ownedPlayers.reduce((players, player) => ((players[player.player_id] = player), players), {})
     },
 
     currentRoster() {
@@ -328,7 +333,7 @@ export default {
   },
   methods: {
     isOwned(player) {
-      return player.id in this.playerOwners
+      return player.player_id in this.playerOwners
     },
 
     addPlayer(player) {
@@ -343,7 +348,7 @@ export default {
     isLocked(player) {
       if (this.isDraft) return false
 
-      return this.$root.isLocked(player.team.abbreviation)
+      return this.$root.isLocked(player.team_abbr)
     },
 
     searchPlayers(value, search, item) {
@@ -363,7 +368,7 @@ export default {
     },
 
     isAvailable(player) {
-      return this.getOwnerId(player.id) == null
+      return this.getOwnerId(player.player_id) == null
     },
 
     formatScore(score) {
@@ -371,17 +376,17 @@ export default {
     },
 
     getNextOpponent(player) {
-      return player != null && player.team != null ? this.$root.getOpponent(player.team.abbreviation) : ""
+      return player != null && player.team_abbr ? this.$root.getOpponent(player.team_abbr) : ""
     },
 
     getPlayerScore(player) {
-      let filterResults = this.playerScores.filter(p => p.id == player.id)
+      let filterResults = this.playerScores.filter(p => p.id == player.player_id)
 
       return filterResults && filterResults.length == 1 ? filterResults[0] : null
     },
 
     getPlayerStats(player) {
-      let filterResults = this.seasonStats.filter(p => p.player_id == player.id)
+      let filterResults = this.seasonStats.filter(p => p.player_id == player.player_id)
 
       return filterResults && filterResults.length == 1 ? filterResults[0] : null
     },

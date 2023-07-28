@@ -1,20 +1,22 @@
 
-from datetime import datetime
 import os
+import sys
+from datetime import datetime
 
 import firebase_admin
-from yards_py.core.firestore_proxy import FirestoreProxy
 
-from yards_py.core.publisher import VirtualPubSubPublisher
-from services.api.app.domain.commands.user.register_email import RegisterCommandExecutor, RegisterEmailCommand
-from yards_py.domain.entities.opponents import Opponents
-from yards_py.domain.entities.schedule import get_playoff_type_config
-from yards_py.domain.entities.scoring_info import ScoringInfo
-from yards_py.domain.entities.state import State
-from yards_py.domain.entities.switches import Switches
-from services.api.app.domain.enums.position_type import get_position_type_config
-from services.api.app.domain.repositories.public_repository import create_public_repository
-from services.api.app.domain.repositories.user_repository import create_user_repository
+sys.path.insert(0, "./services/api")
+
+from app.domain.commands.user.register_email import RegisterCommandExecutor, RegisterEmailCommand
+from app.domain.enums.position_type import get_position_type_config
+from app.domain.repositories.public_repository import create_public_repository
+from app.domain.repositories.user_repository import create_user_repository
+from app.yards_py.core.firestore_proxy import FirestoreProxy
+from app.yards_py.core.publisher import VirtualPubSubPublisher
+from app.yards_py.domain.entities.schedule import get_playoff_type_config
+from app.yards_py.domain.entities.scoring_info import ScoringInfo
+from app.yards_py.domain.entities.state import State
+from app.yards_py.domain.entities.switches import Switches
 
 DEV_PROJECT_ID = "yards-dev"
 
@@ -24,6 +26,9 @@ DEV_PROJECT_ID = "yards-dev"
 os.environ["GCLOUD_PROJECT"] = DEV_PROJECT_ID
 os.environ["FIRESTORE_EMULATOR_HOST"] = "localhost:9000"
 os.environ["FIREBASE_AUTH_EMULATOR_HOST"] = "localhost:9099"
+os.environ["FIREBASE_API_KEY"] = "fake-api-key"
+os.environ["ENDPOINT"] = "http://localhost:8000"
+os.environ["ORIGINS"] = "*"
 
 firebase_admin.initialize_app(options={"projectId": DEV_PROJECT_ID})
 
@@ -43,11 +48,9 @@ public_repo.set_switches(default_switches)
 print("Done")
 
 print("Configuring default state")
-state = State.default(with_current_season=datetime.now().year)
+state = State.default(with_current_season=datetime.now().year-1)
 public_repo.set_state(state)
 
-opponents = Opponents.create({})
-public_repo.set_opponents(opponents)
 print("Done")
 
 print("Creating default admin account...")
@@ -97,3 +100,9 @@ ref.set(ScoringInfo().dict())
 print("Done")
 
 print("Setup script complete")
+
+print("Next steps:")
+print("1. Run 'npm run start' to start emulator and services")
+print("2. Use postman to import the schedule")
+print("3. Use postman to import the players")
+print("4. Use postman to import the full season of boxscores")

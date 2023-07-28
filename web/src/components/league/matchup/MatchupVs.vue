@@ -14,7 +14,7 @@
                   :showPosition="!mobile"
                   :showStatus="!mobile"
                   :showShortPlayerStatus="mobile"
-                  :showNational="!mobile"
+                  :showCanadian="!mobile"
                   :maxNameLength="mobile ? 10 : null"
                 />
               </v-col>
@@ -22,11 +22,11 @@
             <v-row v-if="mobile" class="">
               <v-col class="mt-n2 pb-0 grey--text caption">
                 <span v-if="getPlayer(position.id, away)">
-                  <span>{{ getPlayer(position.id, away).team.abbreviation }}</span>
+                  <span>{{ getPlayer(position.id, away).team_abbr }}</span>
                   <span>&nbsp;- {{ getPlayer(position.id, away).position.toUpperCase() }}</span>
-                  <national-status
+                  <canadian-status
                     v-if="getPlayer(position.id, away)"
-                    :national_status="getPlayer(position.id, away).national_status"
+                    :isCanadian="getPlayer(position.id, away).national_status"
                   />
                 </span>
               </v-col>
@@ -102,7 +102,7 @@
                   :showPosition="!mobile"
                   :showStatus="!mobile"
                   :showShortPlayerStatus="mobile"
-                  :showNational="!mobile"
+                  :showCanadian="!mobile"
                   :maxNameLength="mobile ? 10 : null"
                   :reverse="true"
                 />
@@ -111,11 +111,11 @@
             <v-row v-if="mobile" class="">
               <v-col class="mt-n2 pb-0 grey--text caption text-right">
                 <span v-if="getPlayer(position.id, home)">
-                  <national-status
+                  <canadian-status
                     v-if="getPlayer(position.id, home)"
-                    :national_status="getPlayer(position.id, home).national_status"
+                    :isCanadian="getPlayer(position.id, home).national_status"
                   />
-                  <span>{{ getPlayer(position.id, home).team.abbreviation }}</span>
+                  <span>{{ getPlayer(position.id, home).team_abbr }}</span>
                   <span>&nbsp;- {{ getPlayer(position.id, home).position.toUpperCase() }}</span>
                 </span>
               </v-col>
@@ -154,13 +154,13 @@ import GameState from "../GameState.vue"
 import PlayerLink from "../../player/PlayerLink.vue"
 import * as formatter from "../../../modules/formatter"
 import PlayerProjection from "../PlayerProjection.vue"
-import NationalStatus from "../../player/NationalStatus.vue"
+import CanadianStatus from "../../player/CanadianStatus.vue"
 import { positionType } from "../../../api/110yards/constants"
 import PositionScore from "../PositionScore.vue"
 import scoreboard from "../../../mixins/scoreboard"
 
 export default {
-  components: { PlayerLink, GameState, PlayerProjection, NationalStatus, PositionScore },
+  components: { PlayerLink, GameState, PlayerProjection, CanadianStatus, PositionScore },
   mixins: [scoreboard],
   name: "MatchupVs",
   props: {
